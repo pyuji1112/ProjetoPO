@@ -91,21 +91,21 @@ public class Parser {
     String idPartner = components[2];
 
     // add code here to do the following
-    if (!_store does not have product with idProduct) {
-      ArrayList<Product> products = new ArrayList<>();
-      ArrayList<Integer> quantities = new ArrayList<>();
-
-      for (String component : components[6].split("#")) {
-        String[] recipeComponent = component.split(":");
-        // add code here to
-        // products.add(get Product with id recipeComponent[0]);
-        quantities.add(Integer.parseInt(recipeComponent[1]));
-      }
+    // if (!_store does not have product with idProduct) {
+    //   ArrayList<Product> products = new ArrayList<>();
+    //   ArrayList<Integer> quantities = new ArrayList<>();
+    //
+    //   for (String component : components[6].split("#")) {
+    //     String[] recipeComponent = component.split(":");
+    //     // add code here to
+    //     // products.add(get Product with id recipeComponent[0]);
+    //     quantities.add(Integer.parseInt(recipeComponent[1]));
+    //   }
 
       // add code here to
       // register in _store aggregate product with idProduct, aggravation=Double.parseDouble(components[5])
       // and recipe given by products and quantities);
-    }
+    // }
 
     // add code here to
     //Product product = get Product in _store with productId;
