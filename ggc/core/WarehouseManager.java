@@ -6,6 +6,11 @@ import java.io.Serializable;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 import ggc.core.exception.BadEntryException;
 import ggc.core.exception.ImportFileException;
 import ggc.core.exception.UnavailableFileException;
@@ -19,10 +24,38 @@ public class WarehouseManager {
 
   /** The wharehouse itself. */
   private Warehouse _warehouse = new Warehouse();
+  private List<Batch> _batchesList;
 
-  //FIXME define other attributes
-  //FIXME define constructor(s)
-  //FIXME define other methods
+  // FIXME define other attributes
+
+  // FIXME define constructor(s)
+
+  public WarehouseManager(Warehouse warehouse) {
+    _warehouse = warehouse;
+    _batchesList = new ArrayList<>();
+  }
+
+  // FIXME define other methods
+
+  public List<Batch> getBatchByPartner(String partnerId) {
+    List<Batch> partnerBatches = new ArrayList<>();
+    for (Batch b : _batchesList) {
+      if (b.getSuplier().equals(partnerId))
+        partnerBatches.add(b);
+    }
+
+    return partnerBatches;
+  }
+
+  public List<Batch> getBatchByProduct(String productId) {
+    List<Batch> productBatches = new ArrayList<>();
+    for (Batch b : _batchesList) {
+      if (b.getProductsId().equals(productId))
+        productBatches.add(b);
+    }
+
+    return productBatches;
+  }
 
   /**
    * @@throws IOException
@@ -30,7 +63,7 @@ public class WarehouseManager {
    * @@throws MissingFileAssociationException
    */
   public void save() throws IOException, FileNotFoundException, MissingFileAssociationException {
-    //FIXME implement serialization method
+    // FIXME implement serialization method
   }
 
   /**
@@ -48,8 +81,8 @@ public class WarehouseManager {
    * @@param filename
    * @@throws UnavailableFileException
    */
-  public void load(String filename) throws UnavailableFileException, ClassNotFoundException  {
-    //FIXME implement serialization method
+  public void load(String filename) throws UnavailableFileException, ClassNotFoundException {
+    // FIXME implement serialization method
   }
 
   /**
