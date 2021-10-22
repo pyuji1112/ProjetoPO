@@ -52,6 +52,10 @@ public class WarehouseManager {
     return productBatches;
   }
 
+  public List<Batch> getAllBatches() {
+    return Collections.unmodifiableList(_batchesList);
+  }
+
   /**
    * @@throws IOException
    * @@throws FileNotFoundException

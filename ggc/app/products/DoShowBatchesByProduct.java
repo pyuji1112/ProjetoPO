@@ -8,16 +8,18 @@ import ggc.core.WarehouseManager;
 /**
  * Show all products.
  */
-class DoShowBatchesByProduct extends Command<WarehouseManager> {
+class DoShowBatchesByProduct extends Command<WarehouseManager> implements Message {
 
   DoShowBatchesByProduct(WarehouseManager receiver) {
     super(Label.SHOW_BATCHES_BY_PRODUCT, receiver);
-    //FIXME maybe add command fields
+    // FIXME maybe add command fields
+    addStringField("Parceiro", Message.requestPartnerKey());
   }
 
   @Override
   public final void execute() throws CommandException {
-    //FIXME implement command
+    String partner = stringField("Parceiro");
+    // FIXME implement command
   }
 
 }

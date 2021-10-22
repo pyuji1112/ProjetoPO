@@ -38,6 +38,10 @@ public class Batch implements Comparator<Batch> {
         return _product.get(0).getProductId();
     }
 
+    public boolean addProduct(Product product) {
+        return _product.add(product);
+    }
+
     @Override
     public int compare(Batch b1, Batch b2) {
         int cmp0 = b1.getProductsId().compareTo(b2.getProductsId());
