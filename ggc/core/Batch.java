@@ -45,10 +45,10 @@ public class Batch implements Comparator<Batch> {
     @Override
     public int compare(Batch b1, Batch b2) {
         int cmp0 = b1.getProductsId().compareTo(b2.getProductsId());
-        
+
         if (cmp0 != 0)
             return cmp0;
-            
+
         int cmp1 = b1.getSuplier().compareTo(b2.getSuplier());
 
         if (cmp1 != 0)

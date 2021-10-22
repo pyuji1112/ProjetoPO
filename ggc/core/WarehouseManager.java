@@ -42,16 +42,6 @@ public class WarehouseManager {
     return partnerBatches;
   }
 
-  public List<Batch> getBatchByProduct(String productId) {
-    List<Batch> productBatches = new ArrayList<>();
-    for (Batch b : _batchesList) {
-      if (b.getProductsId().equals(productId))
-        productBatches.add(b);
-    }
-
-    return productBatches;
-  }
-
   public List<Batch> getAllBatches() {
     return Collections.unmodifiableList(_batchesList);
   }

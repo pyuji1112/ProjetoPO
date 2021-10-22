@@ -20,9 +20,9 @@ class DoShowAvailableBatches extends Command<WarehouseManager> {
 
   @Override
   public final void execute() throws CommandException {
-    List<Batch> batches = _receiver.getAllBatches();
+    List<Batch> allBatches = _receiver.getAllBatches();
 
-    for (Batch b : batches) {
+    for (Batch b : allBatches) {
       _display.add(b.getProductsId() + "|");
       _display.add(b.getSuplier() + "|");
       _display.add(b.getUnitPrice() + "|");
@@ -30,7 +30,7 @@ class DoShowAvailableBatches extends Command<WarehouseManager> {
     }
 
     _display.display();
-    //FIXME implement command
+    // FIXME implement command
   }
 
 }

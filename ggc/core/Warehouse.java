@@ -24,7 +24,7 @@ public class Warehouse implements Serializable {
    * @throws BadEntryException
    */
   void importFile(String txtfile) throws IOException, BadEntryException /* FIXME maybe other exceptions */ {
-    //FIXME implement method
+    // FIXME implement method
   }
 
 }
