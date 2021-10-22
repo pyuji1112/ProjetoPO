@@ -24,16 +24,11 @@ public class WarehouseManager {
 
   /** The wharehouse itself. */
   private Warehouse _warehouse = new Warehouse();
-  private List<Batch> _batchesList;
+  private List<Batch> _batchesList = new ArrayList<>();
 
   // FIXME define other attributes
 
   // FIXME define constructor(s)
-
-  public WarehouseManager(Warehouse warehouse) {
-    _warehouse = warehouse;
-    _batchesList = new ArrayList<>();
-  }
 
   // FIXME define other methods
 
