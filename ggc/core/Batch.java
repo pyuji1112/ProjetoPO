@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Batch {
     private String _suplier;
     private int _availableUnits;
-    private int _unitPrice;
+    private double _unitPrice;
     private List<Product> _product;
 
     public Batch(String suplier, int availableUnits, int unitPrice) {
@@ -24,7 +24,7 @@ public class Batch {
         return _availableUnits;
     }
 
-    public int getUnitPrice() {
+    public double getUnitPrice() {
         return _unitPrice;
     }
 

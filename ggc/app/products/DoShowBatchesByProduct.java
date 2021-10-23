@@ -31,7 +31,7 @@ class DoShowBatchesByProduct extends Command<WarehouseManager> implements Messag
       if (b.getProductsId().equals(product)) {
         _display.add(b.getProductsId() + "|");
         _display.add(b.getSuplier() + "|");
-        _display.add(b.getUnitPrice() + "|");
+        _display.add(Math.round(b.getUnitPrice()) + "|");
         _display.addLine(b.getAvailableUnits());
       }
     }

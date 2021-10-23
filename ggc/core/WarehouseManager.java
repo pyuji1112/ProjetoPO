@@ -36,9 +36,28 @@ public class WarehouseManager {
     return _batchesList;
   }
 
-  public List<Batch> getAllBatchesOrderedByPrice() {
-    Collections.sort(_batchesList, new BatchComparatorByPrice());
-    return _batchesList;
+  public int getCurrentStock(String productId) {
+    int currentStock = 0;
+
+    for (Batch b : _batchesList) {
+      if (b.getProductsId().equals(productId)) {
+        currentStock += b.getAvailableUnits();
+      }
+    }
+
+    return currentStock;
+  }
+
+  public double getMaxPrice(String productId) {
+    double maxPrice = 0;
+
+    for (Batch b : _batchesList) {
+      if (b.getProductsId().equals(productId) && maxPrice < b.getUnitPrice()) {
+        maxPrice = b.getUnitPrice();
+      }
+    }
+
+    return maxPrice;
   }
 
   /**

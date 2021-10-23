@@ -22,13 +22,18 @@ class DoShowAllProducts extends Command<WarehouseManager> {
   @Override
   public final void execute() throws CommandException {
     List<String> productsId = new ArrayList<>();
-    List<Batch> allBatches = _receiver.getAllBatchesOrderedByPrice();
+    List<Batch> allBatches = _receiver.getAllBatchesOrdered();
 
     for (Batch b: allBatches) {
-      if (!productsId.contains(b.getProductsId())){
+      if (!productsId.contains(b.getProductsId().toLowerCase())){
+        int currentStock = _receiver.getCurrentStock(b.getProductsId());
+        int maxPrice = _receiver.getUnitPrice(b.getProductsId());
+
         _display.add(b.getProductsId() + "|");
-        _display.add(b.getUnitPrice() + "|");
-        _display.add(b.getAvailableUnits() + "|");
+        _display.add(Math.round(maxPrice) + "|");
+        _display.add(currentStock + "|");
+
+        productsId.add(b.getProductsId().toLowerCase());
       }
     }
 

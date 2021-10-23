@@ -3,7 +3,7 @@ package ggc.core;
 public class Recipe {
     private String _componentsId;
     private int _quantity;
-    private int _componentsPrice;
+    private double _componentsPrice;
 
     public Recipe (String componentsId, int quantity, int componentsPrice) {
         _componentsId = componentsId;
@@ -19,7 +19,7 @@ public class Recipe {
         return _quantity;
     }
 
-    public int getComponentsPrice() {
+    public double getComponentsPrice() {
         return _componentsPrice;
     }
 }
