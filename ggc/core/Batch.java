@@ -2,10 +2,8 @@ package ggc.core;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
-public class Batch implements Comparator<Batch> {
+public class Batch {
     private String _suplier;
     private int _availableUnits;
     private int _unitPrice;
@@ -41,23 +39,4 @@ public class Batch implements Comparator<Batch> {
     public boolean addProduct(Product product) {
         return _product.add(product);
     }
-
-    @Override
-    public int compare(Batch b1, Batch b2) {
-        int cmp0 = b1.getProductsId().compareTo(b2.getProductsId());
-
-        if (cmp0 != 0)
-            return cmp0;
-
-        int cmp1 = b1.getSuplier().compareTo(b2.getSuplier());
-
-        if (cmp1 != 0)
-            return cmp1;
-
-        Integer b1PriceStock = b1.getUnitPrice() + b1.getAvailableUnits();
-        Integer b2PriceStock = b2.getUnitPrice() + b2.getAvailableUnits();
-
-        return b1PriceStock.compareTo(b2PriceStock);
-    }
-
 }

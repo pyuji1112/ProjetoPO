@@ -25,7 +25,7 @@ class DoShowBatchesByProduct extends Command<WarehouseManager> implements Messag
   @Override
   public final void execute() throws CommandException {
     String product = stringField("Produto");
-    List<Batch> allBatches = _receiver.getAllBatches();
+    List<Batch> allBatches = _receiver.getAllBatchesOrdered();
 
     for (Batch b : allBatches) {
       if (b.getProductsId().equals(product)) {

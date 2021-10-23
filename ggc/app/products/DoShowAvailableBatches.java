@@ -20,7 +20,7 @@ class DoShowAvailableBatches extends Command<WarehouseManager> {
 
   @Override
   public final void execute() throws CommandException {
-    List<Batch> allBatches = _receiver.getAllBatches();
+    List<Batch> allBatches = _receiver.getAllBatchesOrdered();
 
     for (Batch b : allBatches) {
       _display.add(b.getProductsId() + "|");

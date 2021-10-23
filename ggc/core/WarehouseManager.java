@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 import ggc.core.exception.BadEntryException;
 import ggc.core.exception.ImportFileException;
@@ -32,18 +31,14 @@ public class WarehouseManager {
 
   // FIXME define other methods
 
-  public List<Batch> getBatchByPartner(String partnerId) {
-    List<Batch> partnerBatches = new ArrayList<>();
-    for (Batch b : _batchesList) {
-      if (b.getSuplier().equals(partnerId))
-        partnerBatches.add(b);
-    }
-
-    return partnerBatches;
+  public List<Batch> getAllBatchesOrdered() {
+    Collections.sort(_batchesList, new BatchComparator());
+    return _batchesList;
   }
 
-  public List<Batch> getAllBatches() {
-    return Collections.unmodifiableList(_batchesList);
+  public List<Batch> getAllBatchesOrderedByPrice() {
+    Collections.sort(_batchesList, new BatchComparatorByPrice());
+    return _batchesList;
   }
 
   /**

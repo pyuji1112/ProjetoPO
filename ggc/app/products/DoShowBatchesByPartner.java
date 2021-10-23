@@ -23,7 +23,7 @@ class DoShowBatchesByPartner extends Command<WarehouseManager> implements Messag
   @Override
   public final void execute() throws CommandException {
     String partner = stringField("Parceiro");
-    List<Batch> allBatches = _receiver.getAllBatches();
+    List<Batch> allBatches = _receiver.getAllBatchesOrdered();
 
     for (Batch b : allBatches) {
       if (b.getSuplier().equals(partner)) {
