@@ -60,6 +60,26 @@ public class WarehouseManager {
     return maxPrice;
   }
 
+  public boolean getPartner(String partner) {
+    for (Batch b : _batchesList) {
+      if (b.getSuplier().toLowerCase().equals(partner.toLowerCase())) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  public boolean getProduct(String product) {
+    for (Batch b : _batchesList) {
+      if (b.getProductsId().toLowerCase().equals(product.toLowerCase())) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   /**
    * @@throws IOException
    * @@throws FileNotFoundException

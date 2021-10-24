@@ -3,6 +3,7 @@ package ggc.app.products;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
 
+import ggc.app.exception.UnknownPartnerKeyException;
 import ggc.core.Batch;
 import ggc.core.WarehouseManager;
 
@@ -24,6 +25,10 @@ class DoShowBatchesByPartner extends Command<WarehouseManager> implements Messag
   public final void execute() throws CommandException {
     String partner = stringField("Parceiro");
     List<Batch> allBatches = _receiver.getAllBatchesOrdered();
+
+    if (!_receiver.getPartner(partner)) {
+      throw new UnknownPartnerKeyException(partner);
+    }
 
     for (Batch b : allBatches) {
       if (b.getSuplier().equals(partner)) {
