@@ -1,17 +1,21 @@
 package ggc.core;
 
-public class Recipe {
-    private String _componentsId;
-    private int _quantity;
-    private double _componentsPrice;
+import java.util.List;
+import java.util.ArrayList;
 
-    public Recipe (String componentsId, int quantity, int componentsPrice) {
-        _componentsId = componentsId;
+
+public class Recipe {
+    private List<String> _componentsId;
+    private int _quantity;
+    private List<Double> _componentsPrice;
+
+    public Recipe (int quantity) {
+        _componentsId = new ArrayList<>();
         _quantity = quantity;
-        _componentsPrice = componentsPrice;
+        _componentsPrice = new ArrayList<>();
     }
 
-    public String getComponentsId() {
+    public List<String> getComponentsId() {
         return _componentsId;
     }
 
@@ -19,7 +23,7 @@ public class Recipe {
         return _quantity;
     }
 
-    public double getComponentsPrice() {
+    public List<Double> getComponentsPrice() {
         return _componentsPrice;
     }
 }

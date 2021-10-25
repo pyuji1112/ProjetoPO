@@ -10,4 +10,10 @@ public abstract class Product {
     public String getProductId() {
         return _productId;
     }
+
+    public abstract String showProduct();
+
+
+
+
 }
