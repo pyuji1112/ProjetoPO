@@ -25,6 +25,9 @@ public class WarehouseManager {
   private Warehouse _warehouse = new Warehouse();
   private List<Batch> _batchesList = new ArrayList<>();
 
+  /** Date tracking**/
+  private Date _date;
+
   // FIXME define other attributes
 
   // FIXME define constructor(s)
