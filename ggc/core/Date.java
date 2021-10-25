@@ -1,11 +1,11 @@
-package gcc.core
+package ggc.core;
 
 public class Date {
 
-  private int _date;
+  private static int _date;
 
-  public int getDate() {
-    return this._date;
+  public static int getDate() {
+    return _date;
   }
 
   public void advanceDay() {
@@ -15,5 +15,5 @@ public class Date {
   public void skipDays(int days) {
     this._date += days;
   }
-  
+
 }

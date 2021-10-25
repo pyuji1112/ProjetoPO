@@ -1,10 +1,9 @@
-package gcc.core
+package ggc.core;
 
-public enum Status {
-  'NORMAL',
-  'SELECTION',
-  'ELITE'
-}
+import java.util.*;
+import ggc.core.Notification;
+import ggc.core.Batch;
+import ggc.core.Transaction;
 
 public class Partner {
 
@@ -13,13 +12,15 @@ public class Partner {
   private String _id;
   private Status _status;
   private double _points;
+  private List<Acquisition> _acquisitions;
+  private List<Sale> _sales;
   private List<Batch> _batches;
   private List<Notification> _notifications;
 
   public Partner(String name, String address) {
     this._name = name;
     this._address = address;
-    this._status = 'NORMAL';
+    this._status = Status.NORMAL;
     this._batches = new ArrayList<Batch>();
   }
 
@@ -65,6 +66,20 @@ public class Partner {
 
   public void removeNotification(Notification notification) {
     this._notifications.remove(notification);
+  }
+
+  public void determineStatus() {
+    if (this._points > 2000 && this._points < 25000) this._status = Status.SELECTION;
+    else if (this._points > 25000) this._status = Status.ELITE;
+    else this._status = Status.NORMAL;
+  }
+
+  public void pay(Transaction transaction) {
+    transaction.pay(this);
+  }
+
+  public void toggleNotification(Product product) {
+    
   }
 
 }
