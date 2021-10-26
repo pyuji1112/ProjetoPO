@@ -8,7 +8,6 @@ import java.util.List;
 
 import ggc.core.Batch;
 import ggc.core.WarehouseManager;
-//FIXME import classes
 
 /**
  * Show all products.
@@ -25,22 +24,24 @@ class DoShowAllProducts extends Command<WarehouseManager> {
     List<Batch> allBatches = _receiver.getAllBatchesOrdered();
 
     for (Batch b: allBatches) {
-      if (!productsId.contains(b.getProductsId().toLowerCase())){
-        int currentStock = _receiver.getCurrentStock(b.getProductsId());
-        double maxPrice = _receiver.getMaxPrice(b.getProductsId());
-        /*String showProduct = _receiver.showProduct(); */
 
-        _display.add(b.getProductsId() + "|");
+      String currentProduct = b.getProduct().getProductId();
+
+      if (!productsId.contains(currentProduct.toLowerCase())){
+        
+        int currentStock = _receiver.getCurrentStock(currentProduct);
+        double maxPrice = _receiver.getMaxPrice(currentProduct);
+
+        _display.add(currentProduct + "|");
         _display.add("" + Math.round(maxPrice) + "|");
         _display.add("" + currentStock + "|");
-        //_display.add(showProduct);
+        _display.addLine(b.getProduct().showProduct());
 
-        productsId.add(b.getProductsId().toLowerCase());
+        productsId.add(currentProduct.toLowerCase());
       }
     }
 
     _display.display();
-    //FIXME implement command
   }
 
 }

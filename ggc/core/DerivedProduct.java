@@ -1,9 +1,6 @@
 package ggc.core;
 
-import java.util.List;
-import java.util.ArrayList;
-
-public class DerivedProduct extends Product{
+public class DerivedProduct extends Product {
     private Recipe _recipe;
     private double _aggravation;
 
@@ -15,24 +12,23 @@ public class DerivedProduct extends Product{
         return _recipe;
     }
 
-    public double getAggravation(){
+    public double getAggravation() {
         return _aggravation;
     }
 
     @Override
-    public String showProduct(){
-        String display = "";
+    public String showProduct() {
+        String display = "" + getAggravation() + "|";
         int i = 0;
 
-        Recipe recipe = this.getRecipe();
+        Recipe recipe = getRecipe();
 
-        for (i = 0; i < recipe.getComponentsPrice().size(); i++) {
-            display += recipe.getComponentsId().get(i) + "-" + recipe.getComponentsPrice().get(i) + "#";
+        for (i = 0; i < recipe.getComponents().size(); i++) {
+            display += recipe.getComponents().get(i).getComponentId() + "-" + 
+                        recipe.getComponents().get(i).getQuantity() + "#";
         }
 
         return display;
-
-
 
     }
 }

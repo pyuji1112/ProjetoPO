@@ -5,8 +5,8 @@ import java.util.Comparator;
 public class BatchComparator implements Comparator<Batch> {
     @Override
     public int compare(Batch b1, Batch b2) {
-        int compareProductId = b1.getProductsId().toLowerCase().
-                compareTo(b2.getProductsId().toLowerCase());
+        int compareProductId = b1.getProduct().getProductId().toLowerCase().
+                compareTo(b2.getProduct().getProductId().toLowerCase());
 
         if (compareProductId != 0)
             return compareProductId;

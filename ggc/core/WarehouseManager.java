@@ -25,7 +25,7 @@ public class WarehouseManager {
   private Warehouse _warehouse = new Warehouse();
   private List<Batch> _batchesList = new ArrayList<>();
 
-  /** Date tracking**/
+  /** Date tracking **/
   private Date _date;
 
   // FIXME define other attributes
@@ -43,7 +43,9 @@ public class WarehouseManager {
     int currentStock = 0;
 
     for (Batch b : _batchesList) {
-      if (b.getProductsId().equals(productId)) {
+      String currentProduct = b.getProduct().getProductId().toLowerCase();
+
+      if (currentProduct.equals(productId.toLowerCase())) {
         currentStock += b.getAvailableUnits();
       }
     }
@@ -55,7 +57,9 @@ public class WarehouseManager {
     double maxPrice = 0;
 
     for (Batch b : _batchesList) {
-      if (b.getProductsId().equals(productId) && maxPrice < b.getUnitPrice()) {
+      String currentProduct = b.getProduct().getProductId().toLowerCase();
+
+      if (currentProduct.equals(productId) && maxPrice < b.getUnitPrice()) {
         maxPrice = b.getUnitPrice();
       }
     }
@@ -75,7 +79,7 @@ public class WarehouseManager {
 
   public boolean getProduct(String product) {
     for (Batch b : _batchesList) {
-      if (b.getProductsId().toLowerCase().equals(product.toLowerCase())) {
+      if (b.getProduct().getProductId().toLowerCase().equals(product.toLowerCase())) {
         return true;
       }
     }

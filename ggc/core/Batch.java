@@ -1,19 +1,16 @@
 package ggc.core;
 
-import java.util.List;
-import java.util.ArrayList;
-
 public class Batch {
     private String _suplier;
     private int _availableUnits;
     private double _unitPrice;
-    private List<Product> _product;
+    private Product _product;
 
-    public Batch(String suplier, int availableUnits, int unitPrice) {
+    public Batch(String suplier, int availableUnits, int unitPrice, Product product) {
         _suplier = suplier;
         _availableUnits = availableUnits;
         _unitPrice = unitPrice;
-        _product = new ArrayList<>();
+        _product = product;
     }
 
     public String getSuplier() {
@@ -28,15 +25,12 @@ public class Batch {
         return _unitPrice;
     }
 
-    public List<Product> getProduct() {
+    public Product getProduct() {
         return _product;
     }
 
-    public String getProductsId() {
-        return _product.get(0).getProductId();
-    }
-
-    public boolean addProduct(Product product) {
-        return _product.add(product);
-    }
+    public String showBatch() {
+        return getProduct().getProductId() + "|" + getSuplier() + "|"
+                + Math.round(getUnitPrice()) + "|" + getAvailableUnits();
+      }
 }

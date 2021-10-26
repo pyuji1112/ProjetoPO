@@ -23,10 +23,7 @@ class DoShowAvailableBatches extends Command<WarehouseManager> {
     List<Batch> allBatches = _receiver.getAllBatchesOrdered();
 
     for (Batch b : allBatches) {
-      _display.add(b.getProductsId() + "|");
-      _display.add(b.getSuplier() + "|");
-      _display.add(Math.round(b.getUnitPrice()) + "|");
-      _display.addLine(b.getAvailableUnits());
+      _display.addLine(b.showBatch());
     }
 
     _display.display();
