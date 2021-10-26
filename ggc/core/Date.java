@@ -8,12 +8,12 @@ public class Date {
     return _date;
   }
 
-  public void advanceDay() {
-    this._date++;
+  public static void advanceDay() {
+    Date._date++;
   }
 
-  public void skipDays(int days) {
-    this._date += days;
+  public static void skipDays(int days) {
+    Date._date += days;
   }
 
 }
