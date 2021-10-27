@@ -27,4 +27,8 @@ public class Sale extends Transaction {
         break;
     }
   }
+
+  public boolean isPaid() {
+    return false;
+  }
 }
