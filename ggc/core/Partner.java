@@ -122,7 +122,7 @@ public class Partner {
 
   @Override
   public String toString() {
-    string toBeReturned = this._id + "|" + this._name + "|" + this._address + "|" + this._status.name() + "|" + this._points + "|" + this.getTotalValue() + "|" this.getRawValue() + "|" this.getValuePaid();
+    string toBeReturned = this._id + "|" + this._name + "|" + this._address + "|" + this._status.name() + "|" + this._points + "|" + this.getTotalValue() + "|" + this.getRawValue() + "|" + this.getValuePaid();
     if (!this._notifications.isEmpty()) {
       for (Notification n : this._notifications) toBeReturned += '\n' + n.getType() + "|" + n.getProduct().getProductId() + "|" + n.getProduct().getPrice();
     }
