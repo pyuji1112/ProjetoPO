@@ -1,6 +1,8 @@
 package ggc.core;
 
-public class DerivedProduct extends Product {
+import java.io.Serializable;
+
+public class DerivedProduct extends Product implements Serializable {
     private Recipe _recipe;
     private double _aggravation;
 
@@ -24,7 +26,7 @@ public class DerivedProduct extends Product {
         Recipe recipe = getRecipe();
 
         for (i = 0; i < recipe.getComponents().size(); i++) {
-            display += recipe.getComponents().get(i).getComponentId() + "-" + 
+            display += recipe.getComponents().get(i).getComponentId() + "-" +
                         recipe.getComponents().get(i).getQuantity() + "#";
         }
 

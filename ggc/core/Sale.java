@@ -1,8 +1,10 @@
 package ggc.core;
 
+import java.io.Serializable;
+
 import ggc.core.Date;
 
-public class Sale extends Transaction {
+public class Sale extends Transaction implements Serializable {
   private int _limitDate;
 
   public int getLimitDate() {

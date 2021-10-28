@@ -5,12 +5,13 @@ import java.io.StreamTokenizer;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.Reader;
+import java.io.Serializable;
 
 import ggc.core.exception.BadEntryException;
 import ggc.core.Warehouse;
 import ggc.core.Partner;
 
-public class Parser {
+public class Parser implements Serializable {
 
   private Warehouse _store;
 

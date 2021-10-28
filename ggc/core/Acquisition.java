@@ -1,6 +1,8 @@
 package ggc.core;
 
-public class Acquisition extends Transaction {
+import java.io.Serializable;
+
+public class Acquisition extends Transaction implements Serializable {
   public void pay(Partner partner) {
 
   }

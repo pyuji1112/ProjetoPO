@@ -3,19 +3,11 @@ package ggc.core;
 import java.io.Serializable;
 import java.util.List;
 import java.io.IOException;
-<<<<<<< Updated upstream
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-=======
-import java.io.FileNotFoundException;  // Import this class to handle errors
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
->>>>>>> Stashed changes
 
 import ggc.core.exception.BadEntryException;
 import ggc.core.exception.ImportFileException;
@@ -23,7 +15,7 @@ import ggc.core.exception.UnavailableFileException;
 import ggc.core.exception.MissingFileAssociationException;
 
 /** Façade for access. */
-public class WarehouseManager {
+public class WarehouseManager implements Serializable {
 
   /** Name of file storing current warehouse. */
   private String _filename = "";
@@ -33,6 +25,10 @@ public class WarehouseManager {
 
   /** Date tracking **/
   private Date _date;
+
+  public boolean isNewFile() {
+    return _filename.equals("");
+  }
 
   public List<Batch> getAllBatchesOrdered() {
     return _warehouse.AllBatchesOrdered();

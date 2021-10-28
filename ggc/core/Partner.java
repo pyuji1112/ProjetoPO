@@ -1,12 +1,14 @@
 package ggc.core;
 
 import java.util.*;
+import java.io.Serializable;
+
 import ggc.core.Notification;
 import ggc.core.Batch;
 import ggc.core.Transaction;
 import ggc.core.Product;
 
-public class Partner {
+public class Partner implements Serializable {
 
   private String _name;
   private String _address;

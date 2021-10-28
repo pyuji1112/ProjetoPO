@@ -1,6 +1,8 @@
 package ggc.core;
 
-public abstract class Product {
+import java.io.Serializable;
+
+public abstract class Product implements Serializable {
     private String _productId;
     private double _price;
 
