@@ -4,6 +4,7 @@ import java.util.*;
 import ggc.core.Notification;
 import ggc.core.Batch;
 import ggc.core.Transaction;
+import ggc.core.Product;
 
 public class Partner {
 
@@ -17,11 +18,15 @@ public class Partner {
   private List<Batch> _batches;
   private List<Notification> _notifications;
 
-  public Partner(String name, String address) {
+  public Partner(String id, String name, String address) {
+    this._id = id.toLowerCase();
     this._name = name;
     this._address = address;
     this._status = Status.NORMAL;
+    this._acquisitions = new ArrayList<Acquisition>();
     this._batches = new ArrayList<Batch>();
+    this._sales = new ArrayList<Sale>();
+    this._notifications = new ArrayList<Notification>();
   }
 
   public String getName() {
@@ -79,7 +84,48 @@ public class Partner {
   }
 
   public void toggleNotification(Product product) {
-    
+
   }
 
+  public double getTotalValue() {
+    double value = 0;
+    for (Acquisition a : this._acquisitions) {
+      value += a.getValue();
+    }
+    for (Sale s : this._sales) {
+      value += s.getValue();
+    }
+    return value;
+  }
+
+  public double getRawValue() {
+    double value = 0;
+    for (Acquisition a : this._acquisitions) {
+      if (a.isPaid()) value += a.getValue();
+    }
+    for (Sale s : this._sales) {
+      if (s.isPaid()) value += s.getValue();
+    }
+    return value;
+  }
+
+  public double getValuePaid() {
+    double value = 0;
+    for (Acquisition a : this._acquisitions) {
+      if (a.isPaid()) value += a.getValue();
+    }
+    for (Sale s : this._sales) {
+      if (s.isPaid()) value += s.getValue();
+    }
+    return value;
+  }
+
+  @Override
+  public String toString() {
+    String toBeReturned = this._id + "|" + this._name + "|" + this._address + "|" + this._status.name() + "|" + (int) this._points + "|" + (int) this.getTotalValue() + "|" + (int) this.getRawValue() + "|" + (int) this.getValuePaid();
+    if (!this._notifications.isEmpty()) {
+      for (Notification n : this._notifications) toBeReturned += '\n' + n.getType() + "|" + n.getProduct().getProductId() + "|" + n.getProduct().getPrice();
+    }
+    return toBeReturned;
+  }
 }
