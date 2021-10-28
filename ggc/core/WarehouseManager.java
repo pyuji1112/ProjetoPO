@@ -1,15 +1,21 @@
 package ggc.core;
 
-//FIXME import classes (cannot import from pt.tecnico or ggc.app)
-
 import java.io.Serializable;
 import java.util.List;
 import java.io.IOException;
+<<<<<<< Updated upstream
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+=======
+import java.io.FileNotFoundException;  // Import this class to handle errors
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+>>>>>>> Stashed changes
 
 import ggc.core.exception.BadEntryException;
 import ggc.core.exception.ImportFileException;
@@ -27,12 +33,6 @@ public class WarehouseManager {
 
   /** Date tracking **/
   private Date _date;
-
-  // FIXME define other attributes
-
-  // FIXME define constructor(s)
-
-  // FIXME define other methods
 
   public List<Batch> getAllBatchesOrdered() {
     return _warehouse.AllBatchesOrdered();
@@ -52,6 +52,18 @@ public class WarehouseManager {
 
   public boolean hasProduct(String product) {
     return _warehouse.Product(product);
+  }
+
+  public void registerPartner(Partner p) {
+    this._warehouse.registerPartner(p);
+  }
+
+  public List<Partner> getPartnerList() {
+    return this._warehouse.getPartnerList();
+  }
+
+  public Partner searchPartnerById(String id) {
+    return this._warehouse.searchPartnerById(id);
   }
 
   /**
@@ -94,7 +106,7 @@ public class WarehouseManager {
   public void importFile(String textfile) throws ImportFileException {
     try {
       _warehouse.importFile(textfile);
-    } catch (IOException | BadEntryException /* FIXME maybe other exceptions */ e) {
+    } catch (IOException | BadEntryException e) {
       throw new ImportFileException(textfile, e);
     }
   }
