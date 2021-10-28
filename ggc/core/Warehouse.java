@@ -1,6 +1,8 @@
 package ggc.core;
 
-// FIXME import classes (cannot import from pt.tecnico or ggc.app)
+import java.io.File;  // Import the File class
+import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.util.Scanner;
 
 import java.util.*;
 import java.io.Serializable;
@@ -10,6 +12,7 @@ import java.util.List;
 import java.io.IOException;
 import ggc.core.exception.BadEntryException;
 import ggc.core.Partner;
+import ggc.core.Parser;
 
 /**
  * Class Warehouse implements a warehouse.
@@ -20,22 +23,24 @@ public class Warehouse implements Serializable {
   private static final long serialVersionUID = 202109192006L;
   private List<Batch> _batchesList = new ArrayList<>();
 
-  private static List<Partner> _partnerList;
+  private Parser _parser;
+  private List<Partner> _partnerList;
 
   public Warehouse() {
-    Warehouse._partnerList = new ArrayList<Partner>();
+    this._partnerList = new ArrayList<Partner>();
+    this._parser = new Parser(this);
   }
 
-  public static List<Partner> getPartnerList() {
-    return Warehouse._partnerList;
+  public List<Partner> getPartnerList() {
+    return this._partnerList;
   }
 
-  public static void registerPartner(Partner partner) {
-    Warehouse._partnerList.add(partner);
+  public void registerPartner(Partner partner) {
+    this._partnerList.add(partner);
   }
 
-  public static Partner searchPartnerById(String id) {
-    for (Partner p : Warehouse._partnerList) {
+  public Partner searchPartnerById(String id) {
+    for (Partner p : this._partnerList) {
       if (p.getId().equals(id.toLowerCase())) return p;
     }
     return null;
@@ -100,8 +105,8 @@ public class Warehouse implements Serializable {
    * @throws IOException
    * @throws BadEntryException
    */
-  void importFile(String txtfile) throws IOException, BadEntryException /* FIXME maybe other exceptions */ {
-    // FIXME implement method
+  void importFile(String txtfile) throws IOException, BadEntryException {
+       this._parser.parseFile(txtfile);
   }
 
 }

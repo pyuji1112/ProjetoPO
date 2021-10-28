@@ -19,7 +19,7 @@ class DoShowPartner extends Command<WarehouseManager> {
   @Override
   public void execute() throws CommandException {
     String id = stringField("Id");
-    Partner p = Warehouse.searchPartnerById(id);
+    Partner p = _receiver.searchPartnerById(id);
     _display.popup(p.toString());
   }
 

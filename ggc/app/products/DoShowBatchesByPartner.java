@@ -17,7 +17,6 @@ class DoShowBatchesByPartner extends Command<WarehouseManager> implements Messag
 
   DoShowBatchesByPartner(WarehouseManager receiver) {
     super(Label.SHOW_BATCHES_SUPPLIED_BY_PARTNER, receiver);
-    //FIXME maybe add command fields
     addStringField("Parceiro", Message.requestPartnerKey());
   }
 

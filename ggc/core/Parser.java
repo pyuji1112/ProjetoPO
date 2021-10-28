@@ -7,10 +7,11 @@ import java.io.BufferedReader;
 import java.io.Reader;
 
 import ggc.core.exception.BadEntryException;
+import ggc.core.Warehouse;
+import ggc.core.Partner;
 
 public class Parser {
 
-  // It could be WarehouseManager too. Or something else.
   private Warehouse _store;
 
   public Parser(Warehouse w) {
@@ -55,8 +56,8 @@ public class Parser {
     String name = components[2];
     String address = components[3];
 
-    // add code here to
-    // register partner with id, name, address in _store;
+    Partner p = new Partner(id, name, address);
+    this._store.registerPartner(p);
   }
 
   // BATCH_S|idProduto|idParceiro|prec ̧o|stock-actual

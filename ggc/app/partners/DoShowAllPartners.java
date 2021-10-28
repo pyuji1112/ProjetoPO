@@ -16,7 +16,7 @@ class DoShowAllPartners extends Command<WarehouseManager> {
 
   @Override
   public void execute() throws CommandException {
-    for (Partner p : Warehouse.getPartnerList()) _display.addLine(p.toString());
+    for (Partner p : _receiver.getPartnerList()) _display.addLine(p.toString());
     _display.display();
   }
 

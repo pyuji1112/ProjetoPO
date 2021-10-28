@@ -24,7 +24,7 @@ class DoRegisterPartner extends Command<WarehouseManager> {
     String name = stringField("name");
     String address = stringField("address");
     Partner p = new Partner(id, name, address);
-    Warehouse.registerPartner(p);
+    _receiver.registerPartner(p);
   }
 
 }
