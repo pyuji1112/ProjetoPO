@@ -28,7 +28,7 @@ class DoShowBatchesByProduct extends Command<WarehouseManager> implements Messag
     String product = stringField("Produto");
     List<Batch> allBatches = _receiver.getAllBatchesOrdered();
 
-    if (!_receiver.getPartner(product)) {
+    if (!_receiver.hasPartner(product)) {
       throw new UnknownProductKeyException(product);
     }
 

@@ -1,6 +1,7 @@
 package ggc.app.main;
 
 import pt.tecnico.uilib.menus.Command;
+import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.CommandException;
 import ggc.core.WarehouseManager;
 //FIXME import classes
@@ -17,7 +18,15 @@ class DoSaveFile extends Command<WarehouseManager> {
 
   @Override
   public final void execute() throws CommandException {
-    //FIXME implement command and create a local Form
+    Form f = new Form("Nome do ficheiro");
+    f.addStringField("Nome do ficheiro", Message.saveAs());
+
+    f.parse();
+
+    String filename = f.stringField("Nome do ficheiro");
+    //_receiver.saveAs(filename);
+    
+    // FIXME implement command and create a local Form
   }
 
 }

@@ -26,7 +26,7 @@ class DoShowBatchesByPartner extends Command<WarehouseManager> implements Messag
     String partner = stringField("Parceiro");
     List<Batch> allBatches = _receiver.getAllBatchesOrdered();
 
-    if (!_receiver.getPartner(partner)) {
+    if (!_receiver.hasPartner(partner)) {
       throw new UnknownPartnerKeyException(partner);
     }
 

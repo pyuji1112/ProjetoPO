@@ -3,12 +3,13 @@ package ggc.core;
 //FIXME import classes (cannot import from pt.tecnico or ggc.app)
 
 import java.io.Serializable;
-import java.io.IOException;
-import java.io.FileNotFoundException;
-
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 import ggc.core.exception.BadEntryException;
 import ggc.core.exception.ImportFileException;
@@ -23,7 +24,6 @@ public class WarehouseManager {
 
   /** The wharehouse itself. */
   private Warehouse _warehouse = new Warehouse();
-  private List<Batch> _batchesList = new ArrayList<>();
 
   /** Date tracking **/
   private Date _date;
@@ -35,56 +35,23 @@ public class WarehouseManager {
   // FIXME define other methods
 
   public List<Batch> getAllBatchesOrdered() {
-    Collections.sort(_batchesList, new BatchComparator());
-    return _batchesList;
+    return _warehouse.AllBatchesOrdered();
   }
 
   public int getCurrentStock(String productId) {
-    int currentStock = 0;
-
-    for (Batch b : _batchesList) {
-      String currentProduct = b.getProduct().getProductId().toLowerCase();
-
-      if (currentProduct.equals(productId.toLowerCase())) {
-        currentStock += b.getAvailableUnits();
-      }
-    }
-
-    return currentStock;
+    return _warehouse.CurrentStock(productId);
   }
 
   public double getMaxPrice(String productId) {
-    double maxPrice = 0;
-
-    for (Batch b : _batchesList) {
-      String currentProduct = b.getProduct().getProductId().toLowerCase();
-
-      if (currentProduct.equals(productId) && maxPrice < b.getUnitPrice()) {
-        maxPrice = b.getUnitPrice();
-      }
-    }
-
-    return maxPrice;
+    return _warehouse.MaxPrice(productId);
   }
 
-  public boolean getPartner(String partner) {
-    for (Batch b : _batchesList) {
-      if (b.getSuplier().toLowerCase().equals(partner.toLowerCase())) {
-        return true;
-      }
-    }
-
-    return false;
+  public boolean hasPartner(String partner) {
+    return _warehouse.Partner(partner);
   }
 
-  public boolean getProduct(String product) {
-    for (Batch b : _batchesList) {
-      if (b.getProduct().getProductId().toLowerCase().equals(product.toLowerCase())) {
-        return true;
-      }
-    }
-
-    return false;
+  public boolean hasProduct(String product) {
+    return _warehouse.Product(product);
   }
 
   /**
@@ -93,7 +60,9 @@ public class WarehouseManager {
    * @@throws MissingFileAssociationException
    */
   public void save() throws IOException, FileNotFoundException, MissingFileAssociationException {
-    // FIXME implement serialization method
+    try (ObjectOutputStream obOut = new ObjectOutputStream(new FileOutputStream(_filename))) {
+      obOut.writeObject(_warehouse);
+    }
   }
 
   /**
@@ -110,9 +79,12 @@ public class WarehouseManager {
   /**
    * @@param filename
    * @@throws UnavailableFileException
+   * @throws IOException
    */
-  public void load(String filename) throws UnavailableFileException, ClassNotFoundException {
-    // FIXME implement serialization method
+  public void load(String filename) throws UnavailableFileException, ClassNotFoundException, IOException {
+    try (ObjectInputStream objIn = new ObjectInputStream(new FileInputStream(filename))) {
+      objIn.readObject();
+    }
   }
 
   /**
