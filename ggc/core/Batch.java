@@ -1,21 +1,22 @@
 package ggc.core;
 
 import java.io.Serializable;
+import ggc.core.Partner;
 
 public class Batch implements Serializable {
-    private String _suplier;
+    private Partner _suplier;
     private int _availableUnits;
     private double _unitPrice;
     private Product _product;
 
-    public Batch(String suplier, int availableUnits, int unitPrice, Product product) {
+    public Batch(Partner suplier, int availableUnits, double unitPrice, Product product) {
         _suplier = suplier;
         _availableUnits = availableUnits;
         _unitPrice = unitPrice;
         _product = product;
     }
 
-    public String getSuplier() {
+    public Partner getSuplier() {
         return _suplier;
     }
 
@@ -32,7 +33,7 @@ public class Batch implements Serializable {
     }
 
     public String showBatch() {
-        return getProduct().getProductId() + "|" + getSuplier() + "|"
+        return getProduct().getProductId().toUpperCase() + "|" + getSuplier().getId().toUpperCase() + "|"
                 + Math.round(getUnitPrice()) + "|" + getAvailableUnits();
       }
 }

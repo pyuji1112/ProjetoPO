@@ -10,6 +10,8 @@ import java.io.Serializable;
 import ggc.core.exception.BadEntryException;
 import ggc.core.Warehouse;
 import ggc.core.Partner;
+import ggc.core.Product;
+import ggc.core.Batch;
 
 public class Parser implements Serializable {
 
@@ -23,8 +25,9 @@ public class Parser implements Serializable {
     try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
       String line;
 
-      while ((line = reader.readLine()) != null)
+      while ((line = reader.readLine()) != null) {
         parseLine(line);
+      }
     }
   }
 
@@ -61,7 +64,7 @@ public class Parser implements Serializable {
     this._store.registerPartner(p);
   }
 
-  // BATCH_S|idProduto|idParceiro|prec ̧o|stock-actual
+  // BATCH_S|idProduto|idParceiro|preco|stock-actual
   private void parseSimpleProduct(String[] components, String line) throws BadEntryException {
     if (components.length != 5)
       throw new BadEntryException("Invalid number of fields (4) in simple batch description: " + line);
@@ -71,16 +74,14 @@ public class Parser implements Serializable {
     double price = Double.parseDouble(components[3]);
     int stock = Integer.parseInt(components[4]);
 
-    // add code here to do the following
-    // if (!_store does not have product with idProduct)
     // register simple product with idProduct in _store;
 
-    // add code here
-    // Product product = get Product in _store with productId;
-    // Partner partner = get Partner in _store with partnerId;
+    Product product = new SimpleProduct(idProduct);
+    Partner partner = _store.searchPartnerById(idPartner);
 
-    // add code here to
     // add batch with price, stock and partner to product
+    if (!_store.hasProduct(idProduct))
+       _store.addBatch(new Batch(partner, stock, price, product));
   }
 
   // BATCH_M|idProduto|idParceiro|prec

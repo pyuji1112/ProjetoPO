@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ggc.core.Batch;
+import ggc.core.Partner;
 import ggc.core.WarehouseManager;
 
 /**
@@ -23,21 +24,16 @@ class DoShowAllProducts extends Command<WarehouseManager> {
     List<String> productsId = new ArrayList<>();
     List<Batch> allBatches = _receiver.getAllBatchesOrdered();
 
-    for (Batch b: allBatches) {
+    for (Batch b : allBatches) {
 
-      String currentProduct = b.getProduct().getProductId();
+      String currentProduct = b.getProduct().getProductId().toUpperCase();
 
       if (!productsId.contains(currentProduct.toLowerCase())){
-        
+
         int currentStock = _receiver.getCurrentStock(currentProduct);
         double maxPrice = _receiver.getMaxPrice(currentProduct);
 
-        _display.add(currentProduct + "|");
-        _display.add("" + Math.round(maxPrice) + "|");
-        _display.add("" + currentStock + "|");
-        _display.addLine(b.getProduct().showProduct());
-
-        productsId.add(currentProduct.toLowerCase());
+        _display.addLine(currentProduct.toUpperCase() + "|" + Math.round(b.getUnitPrice()) + "|" + currentStock);
       }
     }
 

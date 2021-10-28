@@ -31,23 +31,23 @@ public class WarehouseManager implements Serializable {
   }
 
   public List<Batch> getAllBatchesOrdered() {
-    return _warehouse.AllBatchesOrdered();
+    return _warehouse.allBatchesOrdered();
   }
 
   public int getCurrentStock(String productId) {
-    return _warehouse.CurrentStock(productId);
+    return _warehouse.currentStock(productId);
   }
 
   public double getMaxPrice(String productId) {
-    return _warehouse.MaxPrice(productId);
+    return _warehouse.maxPrice(productId);
   }
 
   public boolean hasPartner(String partner) {
-    return _warehouse.Partner(partner);
+    return _warehouse.hasPartner(partner);
   }
 
   public boolean hasProduct(String product) {
-    return _warehouse.Product(product);
+    return _warehouse.hasProduct(product);
   }
 
   public void registerPartner(Partner p) {
@@ -91,7 +91,7 @@ public class WarehouseManager implements Serializable {
    */
   public void load(String filename) throws UnavailableFileException, ClassNotFoundException, IOException {
     try (ObjectInputStream objIn = new ObjectInputStream(new FileInputStream(filename))) {
-      objIn.readObject();
+      _warehouse = (Warehouse) objIn.readObject();
     }
   }
 

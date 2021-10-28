@@ -11,8 +11,8 @@ public class BatchComparator implements Comparator<Batch> {
         if (compareProductId != 0)
             return compareProductId;
 
-        int compareSuplierId = b1.getSuplier().toLowerCase().
-                compareTo(b2.getSuplier().toLowerCase());
+        int compareSuplierId = b1.getSuplier().getId().toLowerCase().
+                compareTo(b2.getSuplier().getId().toLowerCase());
 
         if (compareSuplierId != 0)
             return compareSuplierId;

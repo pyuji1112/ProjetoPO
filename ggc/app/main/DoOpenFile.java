@@ -19,7 +19,6 @@ class DoOpenFile extends Command<WarehouseManager> {
   DoOpenFile(WarehouseManager receiver) {
     super(Label.OPEN, receiver);
     addStringField("Nome do ficheiro", Message.openFile());
-    //FIXME maybe add command fields
   }
 
   @Override
@@ -28,13 +27,11 @@ class DoOpenFile extends Command<WarehouseManager> {
 
     try {
       _receiver.load(filename);
-      //FIXME implement command
     } catch (UnavailableFileException ufe) {
       throw new FileOpenFailedException(ufe.getFilename());
     } catch (ClassNotFoundException e) {
       e.printStackTrace();
-    }
-    catch(IOException io) {
+    } catch(IOException io) {
       io.printStackTrace();
     }
   }
