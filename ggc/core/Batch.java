@@ -9,6 +9,16 @@ public class Batch implements Serializable {
     private double _unitPrice;
     private Product _product;
 
+
+    /**
+     * public Batch - description
+     *
+     * @param  {type} Partner suplier    description
+     * @param  {type} int availableUnits description
+     * @param  {type} double unitPrice   description     
+     * @param  {type} Product product    description
+     * @return {type}                    description
+     */
     public Batch(Partner suplier, int availableUnits, double unitPrice, Product product) {
         _suplier = suplier;
         _availableUnits = availableUnits;
@@ -32,6 +42,12 @@ public class Batch implements Serializable {
         return _product;
     }
 
+
+    /**
+     * public String - description
+     *
+     * @return {type}  description
+     */
     public String showBatch() {
         return getProduct().getProductId() + "|" + getSuplier().getId() + "|"
                 + Math.round(getUnitPrice()) + "|" + getAvailableUnits();

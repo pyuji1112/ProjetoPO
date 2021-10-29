@@ -74,7 +74,7 @@ public class Partner implements Serializable {
   public void removeNotification(Notification notification) {
     this._notifications.remove(notification);
   }
-
+ 
   public void determineStatus() {
     if (this._points > 2000 && this._points < 25000) this._status = Status.SELECTION;
     else if (this._points > 25000) this._status = Status.ELITE;
