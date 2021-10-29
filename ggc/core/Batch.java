@@ -33,7 +33,7 @@ public class Batch implements Serializable {
     }
 
     public String showBatch() {
-        return getProduct().getProductId().toUpperCase() + "|" + getSuplier().getId().toUpperCase() + "|"
+        return getProduct().getProductId() + "|" + getSuplier().getId() + "|"
                 + Math.round(getUnitPrice()) + "|" + getAvailableUnits();
       }
 }

@@ -22,13 +22,18 @@ class DoSaveFile extends Command<WarehouseManager> {
 
   @Override
   public final void execute() throws CommandException {
-    Form f = new Form("Nome do ficheiro");
-    if (_receiver.isNewFile()) f.addStringField("Nome do ficheiro", Message.newSaveAs());
-    else f.addStringField("Nome do ficheiro", Message.saveAs());
-    f.parse();
-    String filename = f.stringField("Nome do ficheiro");
+    String filename = "";
+    if (_receiver.isNewFile()) {
+      Form f = new Form("Nome do ficheiro");
+      f.addStringField("Nome do ficheiro", Message.newSaveAs());
+      f.parse();
+      filename = f.stringField("Nome do ficheiro");
+    }
     try {
-      _receiver.saveAs(filename);
+      if (_receiver.isNewFile())
+        _receiver.saveAs(filename);
+      else
+        _receiver.save();
     } catch (IOException | MissingFileAssociationException e) {
       System.out.println(e);
     }

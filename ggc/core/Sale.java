@@ -11,11 +11,11 @@ public class Sale extends Transaction implements Serializable {
     return this._limitDate;
   }
 
-  public Period calculatePeriod(int n) {
-    if (this.getLimitDate() - Date.getDate() >= n) return Period.P1;
-    else if (this.getLimitDate() - Date.getDate() < n) return Period.P2;
-    else if (0 < Date.getDate() - this.getLimitDate() && Date.getDate() - this.getLimitDate() <= n) return Period.P3;
-    else if (Date.getDate() - this.getLimitDate() > n) return Period.P4;
+  public Period calculatePeriod(int n, int date) {
+    if (this.getLimitDate() - date >= n) return Period.P1;
+    else if (this.getLimitDate() - date < n) return Period.P2;
+    else if (0 < date - this.getLimitDate() && date - this.getLimitDate() <= n) return Period.P3;
+    else if (date - this.getLimitDate() > n) return Period.P4;
     return null;
   }
 

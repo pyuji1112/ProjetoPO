@@ -16,7 +16,7 @@ class DoDisplayDate extends Command<WarehouseManager> {
 
   @Override
   public final void execute() throws CommandException {
-    _display.popup(Message.currentDate(Date.getDate()));
+    _display.popup(Message.currentDate(_receiver.getDate()));
   }
 
 }

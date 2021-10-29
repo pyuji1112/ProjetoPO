@@ -2,6 +2,7 @@ package ggc.app.partners;
 
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
+import ggc.app.exception.DuplicatePartnerKeyException;
 import ggc.core.WarehouseManager;
 import ggc.core.Partner;
 import ggc.core.Warehouse;
@@ -24,7 +25,9 @@ class DoRegisterPartner extends Command<WarehouseManager> {
     String name = stringField("name");
     String address = stringField("address");
     Partner p = new Partner(id, name, address);
-    _receiver.registerPartner(p);
+    if (!_receiver.partnerExists(p))
+      _receiver.registerPartner(p);
+    else _display.popup("Registar parceiro: " + (new DuplicatePartnerKeyException(id)));
   }
 
 }

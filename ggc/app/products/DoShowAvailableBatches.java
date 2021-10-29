@@ -27,7 +27,6 @@ class DoShowAvailableBatches extends Command<WarehouseManager> {
     }
 
     _display.display();
-    // FIXME implement command
   }
 
 }

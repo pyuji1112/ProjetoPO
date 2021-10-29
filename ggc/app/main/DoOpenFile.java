@@ -4,10 +4,10 @@ import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
 
 import java.io.IOException;
+import java.io.File;
 
 import ggc.app.exception.FileOpenFailedException;
 import ggc.core.WarehouseManager;
-//FIXME import classes
 import ggc.core.exception.UnavailableFileException;
 
 /**
@@ -24,16 +24,16 @@ class DoOpenFile extends Command<WarehouseManager> {
   @Override
   public final void execute() throws CommandException {
     String filename = stringField("Nome do ficheiro");
-
+    File file = new File(filename);
     try {
-      _receiver.load(filename);
-    } catch (UnavailableFileException ufe) {
-      throw new FileOpenFailedException(ufe.getFilename());
-    } catch (ClassNotFoundException e) {
-      e.printStackTrace();
-    } catch(IOException io) {
-      io.printStackTrace();
-    }
+      if (file.exists())
+        _receiver.load(filename);
+      else {
+        _display.popup("Abrir: Operação inválida: " + (new FileOpenFailedException(filename)).getMessage());
+      }
+    } catch (UnavailableFileException u) {}
+      catch (ClassNotFoundException c) {}
+      catch (IOException i) {}
   }
 
 }

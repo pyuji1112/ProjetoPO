@@ -80,8 +80,7 @@ public class Parser implements Serializable {
     Partner partner = _store.searchPartnerById(idPartner);
 
     // add batch with price, stock and partner to product
-    if (!_store.hasProduct(idProduct))
-       _store.addBatch(new Batch(partner, stock, price, product));
+    _store.addBatch(new Batch(partner, stock, price, product));
   }
 
   // BATCH_M|idProduto|idParceiro|prec

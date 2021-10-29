@@ -3,6 +3,7 @@ package ggc.app.main;
 import java.lang.*;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
+import ggc.app.exception.InvalidDateException;
 import ggc.core.WarehouseManager;
 import ggc.core.Date;
 
@@ -19,7 +20,8 @@ class DoAdvanceDate extends Command<WarehouseManager> {
   @Override
   public final void execute() throws CommandException {
     int days = integerField("Date");
-    Date.skipDays(days);
+    if (days > 0) _receiver.skipDays(days);
+    else _display.popup("Avançar Data: Operação inválida: " + (new InvalidDateException(days)).getMessage());
   }
 
 }

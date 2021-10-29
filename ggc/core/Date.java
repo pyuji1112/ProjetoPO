@@ -4,18 +4,18 @@ import java.io.Serializable;
 
 public class Date implements Serializable {
 
-  private static int _date;
+  private int _date;
 
-  public static int getDate() {
+  public int getDate() {
     return _date;
   }
 
-  public static void advanceDay() {
-    Date._date++;
+  public void advanceDay() {
+    this._date++;
   }
 
-  public static void skipDays(int days) {
-    Date._date += days;
+  public void skipDays(int days) {
+    this._date += days;
   }
 
 }

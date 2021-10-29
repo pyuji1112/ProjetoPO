@@ -21,7 +21,7 @@ public class Partner implements Serializable {
   private List<Notification> _notifications;
 
   public Partner(String id, String name, String address) {
-    this._id = id.toLowerCase();
+    this._id = id;
     this._name = name;
     this._address = address;
     this._status = Status.NORMAL;
@@ -124,7 +124,7 @@ public class Partner implements Serializable {
 
   @Override
   public String toString() {
-    String toBeReturned = this._id.toUpperCase() + "|" + this._name + "|" + this._address + "|" + this._status.name() + "|" + (int) this._points + "|" + (int) this.getTotalValue() + "|" + (int) this.getRawValue() + "|" + (int) this.getValuePaid();
+    String toBeReturned = this._id + "|" + this._name + "|" + this._address + "|" + this._status.name() + "|" + (int) this._points + "|" + (int) this.getTotalValue() + "|" + (int) this.getRawValue() + "|" + (int) this.getValuePaid();
     if (!this._notifications.isEmpty()) {
       for (Notification n : this._notifications) toBeReturned += '\n' + n.getType() + "|" + n.getProduct().getProductId() + "|" + n.getProduct().getPrice();
     }

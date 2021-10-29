@@ -24,10 +24,18 @@ public class WarehouseManager implements Serializable {
   private Warehouse _warehouse = new Warehouse();
 
   /** Date tracking **/
-  private Date _date;
+  private Date _date = new Date();
 
   public boolean isNewFile() {
     return _filename.equals("");
+  }
+
+  public int getDate() {
+    return this._date.getDate();
+  }
+
+  public void skipDays(int days) {
+    this._date.skipDays(days);
   }
 
   public List<Batch> getAllBatchesOrdered() {
@@ -62,6 +70,13 @@ public class WarehouseManager implements Serializable {
     return this._warehouse.searchPartnerById(id);
   }
 
+  public boolean partnerExists(Partner partner) {
+    for (Partner p : this._warehouse.getPartnerList()) {
+      if (p.getId().equals(partner.getId())) return true;
+    }
+    return false;
+  }
+
   /**
    * @@throws IOException
    * @@throws FileNotFoundException
@@ -92,6 +107,7 @@ public class WarehouseManager implements Serializable {
   public void load(String filename) throws UnavailableFileException, ClassNotFoundException, IOException {
     try (ObjectInputStream objIn = new ObjectInputStream(new FileInputStream(filename))) {
       _warehouse = (Warehouse) objIn.readObject();
+      this._filename = filename;
     }
   }
 
