@@ -63,8 +63,10 @@ public class Warehouse implements Serializable {
   }
 
   public List<Batch> allBatchesOrdered() {
-    Collections.sort(_batchesList, new BatchComparator());
-    return _batchesList;
+    List<Batch> copy = new ArrayList<Batch>();
+    copy.addAll(this._batchesList);
+    Collections.sort(copy, new BatchComparator());
+    return copy;
   }
 
   public void addBatch(Batch b) {
