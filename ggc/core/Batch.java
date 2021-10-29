@@ -11,13 +11,10 @@ public class Batch implements Serializable {
 
 
     /**
-     * public Batch - description
-     *
-     * @param  {type} Partner suplier    description
-     * @param  {type} int availableUnits description
-     * @param  {type} double unitPrice   description     
-     * @param  {type} Product product    description
-     * @return {type}                    description
+     * @param  {type} Partner suplier    
+     * @param  {type} int availableUnits 
+     * @param  {type} double unitPrice       
+     * @param  {type} Product product                  
      */
     public Batch(Partner suplier, int availableUnits, double unitPrice, Product product) {
         _suplier = suplier;
@@ -44,9 +41,9 @@ public class Batch implements Serializable {
 
 
     /**
-     * public String - description
+     * public String - Returns a string with all batch attributes.
      *
-     * @return {type}  description
+     * @return {type}  String
      */
     public String showBatch() {
         return getProduct().getProductId() + "|" + getSuplier().getId() + "|"

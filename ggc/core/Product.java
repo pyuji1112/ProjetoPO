@@ -8,10 +8,7 @@ public abstract class Product implements Serializable {
 
 
     /**
-     * public Product - description
-     *
-     * @param  {type} String productId description
-     * @return {type}                  description
+     * @param  {type} String productId 
      */
     public Product(String productId) {
         _productId = productId;

@@ -18,6 +18,12 @@ public class DerivedProduct extends Product implements Serializable {
         return _aggravation;
     }
 
+    /**
+     * public showProduct - Returns a string with all product attributes, 
+     *                      including the attributes of the recipe.
+        @return {type}  String               
+     */
+
     @Override
     public String showProduct() {
         String display = "" + getAggravation() + "|";
