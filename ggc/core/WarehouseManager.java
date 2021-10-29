@@ -70,6 +70,7 @@ public class WarehouseManager implements Serializable {
     return this._warehouse.searchPartnerById(id);
   }
 
+  /* Checks if partner is registered in the warehouse. */
   public boolean partnerExists(Partner partner) {
     for (Partner p : this._warehouse.getPartnerList()) {
       if (p.getId().equals(partner.getId())) return true;

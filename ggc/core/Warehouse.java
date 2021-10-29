@@ -31,6 +31,7 @@ public class Warehouse implements Serializable {
     this._parser = new Parser(this);
   }
 
+  /* Returns a copy of the list of partners */
   public List<Partner> getPartnerList() {
     List<Partner> copy = new ArrayList<Partner>();
     copy.addAll(this._partnerList);
@@ -41,6 +42,7 @@ public class Warehouse implements Serializable {
     this._partnerList.add(partner);
   }
 
+  /* Searches a partner with given ID. Comparison is made with all lower cased characters. */
   public Partner searchPartnerById(String id) {
     for (Partner p : this._partnerList) {
       if (p.getId().toLowerCase().equals(id.toLowerCase())) return p;
@@ -48,6 +50,7 @@ public class Warehouse implements Serializable {
     return null;
   }
 
+  /* Searches a product with given ID. Comparison is made with all lower cased characters. */
   public Product searchProductById(String product) {
     for (Batch b : _batchesList) {
       if (b.getProduct().getProductId().toLowerCase().equals(product.toLowerCase())) return b.getProduct();
@@ -55,6 +58,7 @@ public class Warehouse implements Serializable {
     return null;
   }
 
+  /* Checks if warehouse has a partner given their ID. */
   public boolean hasPartner(String id) {
     for (Partner p : this._partnerList) {
       if (p.getId().toLowerCase().equals(id.toLowerCase())) return true;
@@ -62,6 +66,7 @@ public class Warehouse implements Serializable {
     return false;
   }
 
+  /* Returns a copy of the list of batches, but ordered. */
   public List<Batch> allBatchesOrdered() {
     List<Batch> copy = new ArrayList<Batch>();
     copy.addAll(this._batchesList);
@@ -73,6 +78,7 @@ public class Warehouse implements Serializable {
     this._batchesList.add(b);
   }
 
+  /* Returns the current stock of a product in the warehouse. */
   public int currentStock(String productId) {
     int currentStock = 0;
 
@@ -83,10 +89,10 @@ public class Warehouse implements Serializable {
         currentStock += b.getAvailableUnits();
       }
     }
-
     return currentStock;
   }
 
+ /* Returns the highest price that a productin the warehouse is */
   public double maxPrice(String productId) {
     double maxPrice = 0;
 

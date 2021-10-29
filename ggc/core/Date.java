@@ -10,10 +10,12 @@ public class Date implements Serializable {
     return _date;
   }
 
+  /* Advances one day */
   public void advanceDay() {
     this._date++;
   }
 
+  /* Advances days based on an input */
   public void skipDays(int days) {
     this._date += days;
   }
