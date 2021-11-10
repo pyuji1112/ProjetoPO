@@ -75,8 +75,8 @@ public class WarehouseManager implements Serializable {
     return _warehouse.searchProductById(productId);
   }
 
-  public String showProduct(Product product) {
-    return _warehouse.showProduct(product);
+  public String showProduct(String productId) {
+    return _warehouse.showProduct(productId);
   }
 
   /* Checks if partner is registered in the warehouse. */
@@ -98,6 +98,10 @@ public class WarehouseManager implements Serializable {
 
   public void doRegisterAcquisitionTransaction(Partner partner, Product product, double price, int amount) {
     _warehouse.doAcquisition(partner, product, price, amount);
+  }
+
+  public String showTransaction(int transactionId) {
+    return _warehouse.showTransaction(transactionId);
   }
 
   /**

@@ -54,5 +54,5 @@ public abstract class Transaction implements Serializable {
 
   public abstract boolean isPaid();
 
-  public abstract String showTransaction(int transactionId);
+  public abstract String showTransaction();
 }

@@ -77,6 +77,11 @@ public class Warehouse implements Serializable {
     return null;
   }
 
+  String showProduct(String productId) {
+    Product product = searchProductById(productId);
+    return productId + "|" + Math.round(maxPrice(productId)) + "|" + currentStock(productId) + "|" + product.showProduct();
+  }
+
   /* Checks if warehouse has a partner given their ID. */
   public boolean hasPartner(String id) {
     for (Partner p : this._partnerList) {
@@ -150,20 +155,16 @@ public class Warehouse implements Serializable {
     return false;
   }
 
-  public String showProduct(Product product) {
-    return product.showProduct();
-  }
-
-  public void registerTransaction(Transaction transaction) {
+  void registerTransaction(Transaction transaction) {
     _transactions.add(transaction);
     transaction.newTransaction();
   }
 
-  public void uptadeBatches(List<Batch> batches) {
+  void uptadeBatches(List<Batch> batches) {
     _batchesList = new ArrayList<>(batches);
   }
 
-  public void doBreakdownSale(String productId, int amount, String partnerId) {
+  void doBreakdownSale(String productId, int amount, String partnerId) {
     Product product = searchProductById(productId);
     Partner partner = searchPartnerById(partnerId);
 
@@ -176,7 +177,7 @@ public class Warehouse implements Serializable {
     uptadeBatches(newBreakdownSale.getAllBatches());
   }
 
-  public void doAcquisition(Partner partner, Product product, double price, int amount) {
+  void doAcquisition(Partner partner, Product product, double price, int amount) {
     Acquisition newAcquisition = new Acquisition(product, partner, amount, getDate());
     newAcquisition.pay(partner);
     partner.addAcquisition(newAcquisition);
@@ -184,6 +185,20 @@ public class Warehouse implements Serializable {
     Batch newBatch = new Batch(partner, amount, price, product);
     addBatch(newBatch);
     changeCurrentBalance(price);
+  }
+
+  List<Transaction> getTransactions() {
+    return Collections.unmodifiableList(_transactions);
+  }
+
+  String showTransaction(int transactionId) {
+    String transaction = "";
+    for (Transaction t : getTransactions()) {
+      if (t.getTransactionId() == transactionId)
+        transaction += transactionId + t.showTransaction();
+        break;
+    }
+    return transaction;
   }
 
   public double currentBalance() {

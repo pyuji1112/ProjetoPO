@@ -17,7 +17,7 @@ public class Acquisition extends Transaction implements Serializable {
   }
 
   @Override
-  public String showTransaction(int transactionId) {
-    return "" + transactionId + getPartner().getId() + getProduct().getProductId() + getQuantity() + getValue() + getPaymentDate();
+  public String showTransaction() {
+    return getPartner().getId() + getProduct().getProductId() + getQuantity() + getValue() + getPaymentDate();
   }
 }

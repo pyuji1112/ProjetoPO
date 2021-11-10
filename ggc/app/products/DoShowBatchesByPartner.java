@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Show batches supplied by partner.
  */
-class DoShowBatchesByPartner extends Command<WarehouseManager> implements Message{
+class DoShowBatchesByPartner extends Command<WarehouseManager> implements Message {
 
   DoShowBatchesByPartner(WarehouseManager receiver) {
     super(Label.SHOW_BATCHES_SUPPLIED_BY_PARTNER, receiver);
@@ -22,21 +22,17 @@ class DoShowBatchesByPartner extends Command<WarehouseManager> implements Messag
 
   @Override
   public final void execute() throws CommandException {
-    String partner = stringField("Parceiro");
+    String partnerId = stringField("Parceiro");
     List<Batch> allBatches = _receiver.getAllBatchesOrdered();
 
-    if (!_receiver.hasPartner(partner)) {
-      throw new UnknownPartnerKeyException(partner);
+    if (!_receiver.hasPartner(partnerId)) {
+      throw new UnknownPartnerKeyException(partnerId);
     }
 
-    for (Batch b : allBatches) {
-      if (b.getSuplier().equals(partner)) {
-        _display.addLine(b.showBatch());
-      }
-    }
+    for (Batch b : allBatches)
+      _display.addLine(_receiver.searchPartnerById(partnerId));
 
     _display.display();
-    //FIXME implement command
   }
 
 }

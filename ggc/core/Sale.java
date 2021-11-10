@@ -40,7 +40,7 @@ public class Sale extends Transaction implements Serializable {
   }
 
   @Override
-  public String showTransaction(int transactionId) {
+  public String showTransaction() {
     // TODO Auto-generated method stub
     return null;
   }

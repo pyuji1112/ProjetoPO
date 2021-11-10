@@ -25,21 +25,17 @@ class DoShowBatchesByProduct extends Command<WarehouseManager> implements Messag
 
   @Override
   public final void execute() throws CommandException {
-    String product = stringField("Produto");
+    String productId = stringField("Produto");
     List<Batch> allBatches = _receiver.getAllBatchesOrdered();
 
-    if (!_receiver.hasPartner(product)) {
-      throw new UnknownProductKeyException(product);
+    if (!_receiver.hasPartner(productId)) {
+      throw new UnknownProductKeyException(productId);
     }
 
-    for (Batch b : allBatches) {
-      if (b.getProduct().getProductId().equals(product)) {
-        _display.addLine(b.showBatch());
-      }
-    }
+    for (Batch b : allBatches)
+      _display.addLine(_receiver.searchProductById(productId));
 
     _display.display();
-    // FIXME implement command
   }
 
 }
