@@ -186,6 +186,18 @@ public class Warehouse implements Serializable {
     addBatch(newBatch);
     changeCurrentBalance(price);
   }
+  
+  Component makeNewComponent(String componentId, int quantity) {
+    return new Component(componentId, quantity);
+  }
+
+  Recipe makeNewRecipe(List<Component> components) {
+    return new Recipe(components);
+  }
+
+  DerivedProduct makeNewDerivedProduct(String productId, double price, Recipe recipe, double alpha) {
+    return new DerivedProduct(productId, price, recipe, alpha);
+  }
 
   List<Transaction> getTransactions() {
     return Collections.unmodifiableList(_transactions);

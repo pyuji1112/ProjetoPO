@@ -104,6 +104,18 @@ public class WarehouseManager implements Serializable {
     return _warehouse.showTransaction(transactionId);
   }
 
+  public Component makeNewComponent(String componentId, int quantity) {
+    return _warehouse.makeNewComponent(componentId, quantity);
+  }
+
+  public Recipe makeNewRecipe(List<Component> components) {
+    return _warehouse.makeNewRecipe(components);
+  }
+
+  public DerivedProduct makeNewDerivedProduct(String productId, double price, Recipe recipe, double alpha) {
+    return _warehouse.makeNewDerivedProduct(productId, price, recipe, alpha);
+  }
+
   /**
    * @@throws IOException
    * @@throws FileNotFoundException
