@@ -183,10 +183,15 @@ public class Warehouse implements Serializable {
     registerTransaction(newAcquisition);
     Batch newBatch = new Batch(partner, amount, price, product);
     addBatch(newBatch);
+    changeCurrentBalance(price);
   }
 
-  public double currentBalance() {
+  public double getCurrentBalance() {
     return _currentBalance;
+  }
+
+  public void changeCurrentBalance(double value) {
+    _currentBalance += value;
   }
 
   /**
