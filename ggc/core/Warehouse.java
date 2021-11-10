@@ -186,7 +186,7 @@ public class Warehouse implements Serializable {
     changeCurrentBalance(price);
   }
 
-  public double getCurrentBalance() {
+  public double currentBalance() {
     return _currentBalance;
   }
 
