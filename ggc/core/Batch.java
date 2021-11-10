@@ -1,7 +1,6 @@
 package ggc.core;
 
 import java.io.Serializable;
-import ggc.core.Partner;
 
 public class Batch implements Serializable {
     private Partner _suplier;
@@ -9,12 +8,11 @@ public class Batch implements Serializable {
     private double _unitPrice;
     private Product _product;
 
-
     /**
-     * @param  {type} Partner suplier    
-     * @param  {type} int availableUnits 
-     * @param  {type} double unitPrice       
-     * @param  {type} Product product                  
+     * @param {type} Partner suplier
+     * @param {type} int availableUnits
+     * @param {type} double unitPrice
+     * @param {type} Product product
      */
     public Batch(Partner suplier, int availableUnits, double unitPrice, Product product) {
         _suplier = suplier;
@@ -39,14 +37,17 @@ public class Batch implements Serializable {
         return _product;
     }
 
-
     /**
      * public String - Returns a string with all batch attributes.
      *
-     * @return {type}  String
+     * @return {type} String
      */
     public String showBatch() {
-        return getProduct().getProductId() + "|" + getSuplier().getId() + "|"
-                + Math.round(getUnitPrice()) + "|" + getAvailableUnits();
-      }
+        return getProduct().getProductId() + "|" + getSuplier().getId() + "|" + Math.round(getUnitPrice()) + "|"
+                + getAvailableUnits();
+    }
+
+    int uptadeStock(int quantity) {
+        return _availableUnits + quantity;
+    }
 }

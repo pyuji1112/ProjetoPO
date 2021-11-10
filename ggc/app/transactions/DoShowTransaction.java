@@ -12,12 +12,13 @@ public class DoShowTransaction extends Command<WarehouseManager> {
 
   public DoShowTransaction(WarehouseManager receiver) {
     super(Label.SHOW_TRANSACTION, receiver);
-    //FIXME maybe add command fields
+    addIntegerField("Id da transação", Message.requestTransactionKey());
   }
 
   @Override
   public final void execute() throws CommandException {
-    //FIXME implement command
+    int transactionId = integerField("Id da tranação");
+    _display.popup(_receiver.showTransaction(transactionId));
   }
 
 }

@@ -26,14 +26,14 @@ class DoShowAllProducts extends Command<WarehouseManager> {
 
     for (Batch b : allBatches) {
 
-      String currentProduct = b.getProduct().getProductId();
+      String currentProductId = b.getProduct().getProductId();
 
-      if (!productsId.contains(currentProduct.toLowerCase())){
+      if (!productsId.contains(currentProductId.toLowerCase())){
 
-        int currentStock = _receiver.getCurrentStock(currentProduct);
-        double maxPrice = _receiver.getMaxPrice(currentProduct);
+        int currentStock = _receiver.getCurrentStock(currentProductId);
+        double maxPrice = _receiver.getMaxPrice(currentProductId);
 
-        _display.addLine(currentProduct + "|" + Math.round(b.getUnitPrice()) + "|" + currentStock);
+        _display.addLine(currentProductId + "|" + Math.round(b.getUnitPrice()) + "|" + currentStock + "|" + b.getProduct().showProduct());
       }
     }
 

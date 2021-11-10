@@ -6,11 +6,15 @@ public abstract class Product implements Serializable {
     private String _productId;
     private double _price;
 
-
     /**
-     * @param  {type} String productId 
+     * @param {type} String productId
      */
-    public Product(String productId) {
+    public Product(String productId, double price) {
+        _productId = productId;
+        _price = price;
+    }
+
+    public Product(String productId) {  //Construtor dos componentes
         _productId = productId;
     }
 
@@ -19,9 +23,11 @@ public abstract class Product implements Serializable {
     }
 
     public double getPrice() {
-      return _price;
+        return _price;
     }
-    
+
+    public abstract Recipe getRecipe();
+
     public abstract String showProduct();
 
 }

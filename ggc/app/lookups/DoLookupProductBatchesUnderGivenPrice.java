@@ -2,6 +2,10 @@ package ggc.app.lookups;
 
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
+
+import java.util.List;
+
+import ggc.core.Batch;
 import ggc.core.WarehouseManager;
 //FIXME import classes
 
@@ -12,12 +16,20 @@ public class DoLookupProductBatchesUnderGivenPrice extends Command<WarehouseMana
 
   public DoLookupProductBatchesUnderGivenPrice(WarehouseManager receiver) {
     super(Label.PRODUCTS_UNDER_PRICE, receiver);
-    //FIXME add command fields
+    addRealField("Valor limite", Message.requestPriceLimit());
   }
 
   @Override
   public void execute() throws CommandException {
-    //FIXME implement command
-  }
+    List<Batch> allBatches = _receiver.getAllBatchesOrdered();
+    Double limitValue = realField("Valor limite");
 
+    for (Batch b : allBatches) {
+      if (b.getUnitPrice() < limitValue) {
+        _display.addLine(b.showBatch());
+      }
+    }
+
+    _display.display();
+  }
 }

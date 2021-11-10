@@ -2,26 +2,32 @@ package ggc.core;
 
 import java.io.Serializable;
 
-public class Component implements Serializable {
-    private int _price;
+public class Component extends Product implements Serializable {
     private int _quantity;
-    private String _id;
 
-    public Component(int price, int quantity, String id) {
-        _price = price;
+    public Component(String productId, double price, int quantity) {
+        super(productId, price);
         _quantity = quantity;
-        _id = id;
     }
 
-    public int getprice() {
-        return _price;
+    public Component(String productId, int quantity) {
+        super(productId);
+        _quantity = quantity;
     }
 
     public int getQuantity() {
         return _quantity;
     }
 
-    public String getComponentId() {
-        return _id;
+    @Override
+    public Recipe getRecipe() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String showProduct() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

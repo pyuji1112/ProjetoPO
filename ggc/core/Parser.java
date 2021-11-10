@@ -76,7 +76,7 @@ public class Parser implements Serializable {
 
     // register simple product with idProduct in _store;
 
-    Product product = new SimpleProduct(idProduct);
+    Product product = new SimpleProduct(idProduct, price);
     Partner partner = _store.searchPartnerById(idPartner);
 
     // add batch with price, stock and partner to product

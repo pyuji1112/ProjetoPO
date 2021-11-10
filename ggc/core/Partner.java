@@ -123,6 +123,22 @@ public class Partner implements Serializable {
     return value;
   }
 
+  public List<Acquisition> getAcquisitions() {
+    return _acquisitions;
+  }
+
+  public List<Sale> getSales() {
+    return _sales;
+  }
+
+  public void addSale(Sale sale) {
+    _sales.add(sale);
+  }
+
+  public void addAcquisition(Acquisition acquisition) {
+    _acquisitions.add(acquisition);
+  }
+
   @Override
   public String toString() {
     String toBeReturned = this._id + "|" + this._name + "|" + this._address + "|" + this._status.name() + "|" + (int) this._points + "|" + (int) this.getTotalValue() + "|" + (int) this.getRawValue() + "|" + (int) this.getValuePaid();

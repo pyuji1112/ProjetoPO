@@ -1,7 +1,7 @@
 package ggc.core;
 
-import java.io.File;  // Import the File class
-import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.io.File; // Import the File class
+import java.io.FileNotFoundException; // Import this class to handle errors
 import java.util.Scanner;
 
 import java.util.*;
@@ -11,8 +11,6 @@ import java.util.Collections;
 import java.util.List;
 import java.io.IOException;
 import ggc.core.exception.BadEntryException;
-import ggc.core.Partner;
-import ggc.core.Parser;
 
 /**
  * Class Warehouse implements a warehouse.
@@ -24,11 +22,24 @@ public class Warehouse implements Serializable {
   private List<Batch> _batchesList;
   private Parser _parser;
   private List<Partner> _partnerList;
+  private List<Transaction> _transactions;
+  private double _currentBalance;
+  private Date _date = new Date();
 
   public Warehouse() {
     this._batchesList = new ArrayList<Batch>();
     this._partnerList = new ArrayList<Partner>();
+    this._transactions = new ArrayList<Transaction>();
     this._parser = new Parser(this);
+    _currentBalance = 0;
+  }
+
+  public int getDate() {
+    return _date.getDate();
+  }
+
+  public void skipDays(int days) {
+    _date.skipDays(days);
   }
 
   /* Returns a copy of the list of partners */
@@ -42,18 +53,26 @@ public class Warehouse implements Serializable {
     this._partnerList.add(partner);
   }
 
-  /* Searches a partner with given ID. Comparison is made with all lower cased characters. */
+  /*
+   * Searches a partner with given ID. Comparison is made with all lower cased
+   * characters.
+   */
   public Partner searchPartnerById(String id) {
     for (Partner p : this._partnerList) {
-      if (p.getId().toLowerCase().equals(id.toLowerCase())) return p;
+      if (p.getId().toLowerCase().equals(id.toLowerCase()))
+        return p;
     }
     return null;
   }
 
-  /* Searches a product with given ID. Comparison is made with all lower cased characters. */
+  /*
+   * Searches a product with given ID. Comparison is made with all lower cased
+   * characters.
+   */
   public Product searchProductById(String product) {
     for (Batch b : _batchesList) {
-      if (b.getProduct().getProductId().toLowerCase().equals(product.toLowerCase())) return b.getProduct();
+      if (b.getProduct().getProductId().toLowerCase().equals(product.toLowerCase()))
+        return b.getProduct();
     }
     return null;
   }
@@ -61,9 +80,14 @@ public class Warehouse implements Serializable {
   /* Checks if warehouse has a partner given their ID. */
   public boolean hasPartner(String id) {
     for (Partner p : this._partnerList) {
-      if (p.getId().toLowerCase().equals(id.toLowerCase())) return true;
+      if (p.getId().toLowerCase().equals(id.toLowerCase()))
+        return true;
     }
     return false;
+  }
+
+  public List<Batch> allBatches() {
+    return Collections.unmodifiableList(_batchesList);
   }
 
   /* Returns a copy of the list of batches, but ordered. */
@@ -92,7 +116,7 @@ public class Warehouse implements Serializable {
     return currentStock;
   }
 
- /* Returns the highest price that a productin the warehouse is */
+  /* Returns the highest price that a productin the warehouse is */
   public double maxPrice(String productId) {
     double maxPrice = 0;
 
@@ -126,6 +150,44 @@ public class Warehouse implements Serializable {
     return false;
   }
 
+  public String showProduct(Product product) {
+    return product.showProduct();
+  }
+
+  public void registerTransaction(Transaction transaction) {
+    _transactions.add(transaction);
+    transaction.newTransaction();
+  }
+
+  public void uptadeBatches(List<Batch> batches) {
+    _batchesList = new ArrayList<>(batches);
+  }
+
+  public void doBreakdownSale(String productId, int amount, String partnerId) {
+    Product product = searchProductById(productId);
+    Partner partner = searchPartnerById(partnerId);
+
+    BreakdownSale newBreakdownSale = new BreakdownSale(product, partner, amount, getDate(), allBatches());
+    newBreakdownSale.doBreakdownSale(product, amount, partner);
+    newBreakdownSale.pay(partner);
+    partner.addSale(newBreakdownSale);
+    partner.addPoints(newBreakdownSale.getValue()* 10);
+    registerTransaction(newBreakdownSale);
+    uptadeBatches(newBreakdownSale.getAllBatches());
+  }
+
+  public void doAcquisition(Partner partner, Product product, double price, int amount) {
+    Acquisition newAcquisition = new Acquisition(product, partner, amount, getDate());
+    newAcquisition.pay(partner);
+    partner.addAcquisition(newAcquisition);
+    registerTransaction(newAcquisition);
+    Batch newBatch = new Batch(partner, amount, price, product);
+    addBatch(newBatch);
+  }
+
+  public double currentBalance() {
+    return _currentBalance;
+  }
 
   /**
    * @param txtfile filename to be loaded.
@@ -133,7 +195,7 @@ public class Warehouse implements Serializable {
    * @throws BadEntryException
    */
   void importFile(String txtfile) throws IOException, BadEntryException {
-       this._parser.parseFile(txtfile);
+    this._parser.parseFile(txtfile);
   }
 
 }

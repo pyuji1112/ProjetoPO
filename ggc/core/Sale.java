@@ -5,6 +5,11 @@ import java.io.Serializable;
 import ggc.core.Date;
 
 public class Sale extends Transaction implements Serializable {
+  
+  public Sale(Product product, Partner partner, int quantity, int paymentDate) {
+    super(product, partner, quantity, paymentDate);
+  }
+
   private int _limitDate;
 
   public int getLimitDate() {
@@ -32,5 +37,11 @@ public class Sale extends Transaction implements Serializable {
 
   public boolean isPaid() {
     return false;
+  }
+
+  @Override
+  public String showTransaction(int transactionId) {
+    // TODO Auto-generated method stub
+    return null;
   }
 }

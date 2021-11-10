@@ -23,19 +23,20 @@ public class WarehouseManager implements Serializable {
   /** The wharehouse itself. */
   private Warehouse _warehouse = new Warehouse();
 
-  /** Date tracking **/
-  private Date _date = new Date();
-
   public boolean isNewFile() {
     return _filename.equals("");
   }
 
   public int getDate() {
-    return this._date.getDate();
+    return _warehouse.getDate();
   }
 
   public void skipDays(int days) {
-    this._date.skipDays(days);
+    _warehouse.skipDays(days);
+  }
+
+  public List<Batch> getAllBatches() {
+    return _warehouse.allBatches();
   }
 
   public List<Batch> getAllBatchesOrdered() {
@@ -70,12 +71,33 @@ public class WarehouseManager implements Serializable {
     return this._warehouse.searchPartnerById(id);
   }
 
+  public Product searchProductById(String productId) {
+    return _warehouse.searchProductById(productId);
+  }
+
+  public String showProduct(Product product) {
+    return _warehouse.showProduct(product);
+  }
+
   /* Checks if partner is registered in the warehouse. */
   public boolean partnerExists(Partner partner) {
     for (Partner p : this._warehouse.getPartnerList()) {
-      if (p.getId().equals(partner.getId())) return true;
+      if (p.getId().equals(partner.getId()))
+        return true;
     }
     return false;
+  }
+
+  public double getCurrentBalance() {
+    return _warehouse.currentBalance();
+  }
+
+  public void doRegisterBreakdownTransaction(String productId, int amount, String partnerId) {
+    _warehouse.doBreakdownSale(productId, amount, partnerId);
+  }
+
+  public void doRegisterAcquisitionTransaction(Partner partner, Product product, double price, int amount) {
+    _warehouse.doAcquisition(partner, product, price, amount);
   }
 
   /**
