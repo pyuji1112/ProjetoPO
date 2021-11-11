@@ -63,11 +63,11 @@ public class DoRegisterAcquisitionTransaction extends Command<WarehouseManager> 
       while (count <= componentsNumber) {
         addStringField("Identificador do componente", Message.requestProductKey());
         addIntegerField("Quantidade do componente", Message.requestAmount());
-        Component newComponent = _receiver.makeNewComponent(stringField("Identificador do Componente", integerField("Quantidade do componente")));
+        Component newComponent = _receiver.makeNewComponent(stringField("Identificador do componente"), integerField("Quantidade do componente"));
         components.add(newComponent);
       }
       Recipe newRecipe = _receiver.makeNewRecipe(components);
-      DerivedProduct newProduct = _receiver.makeNeWDerivedProduct(productId, price, newRecipe, realField("Agravamento"));
+      DerivedProduct newProduct = _receiver.makeNewDerivedProduct(productId, price, newRecipe, realField("Agravamento"));
       _receiver.doRegisterAcquisitionTransaction(partner, newProduct, price, amount);
     }
 

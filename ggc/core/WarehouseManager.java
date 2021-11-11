@@ -88,8 +88,12 @@ public class WarehouseManager implements Serializable {
     return false;
   }
 
-  public double getCurrentBalance() {
-    return _warehouse.currentBalance();
+  public double getAvailableBalance() {
+    return _warehouse.availableBalance();
+  }
+
+  public double getAccountingBalance() {
+    return _warehouse.accountingBalance();
   }
 
   public void doRegisterBreakdownTransaction(String productId, int amount, String partnerId) {

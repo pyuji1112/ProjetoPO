@@ -23,7 +23,8 @@ public class Warehouse implements Serializable {
   private Parser _parser;
   private List<Partner> _partnerList;
   private List<Transaction> _transactions;
-  private double _currentBalance;
+  private double _availableBalance;
+  private double _accountingBalance;
   private Date _date = new Date();
 
   public Warehouse() {
@@ -31,7 +32,8 @@ public class Warehouse implements Serializable {
     this._partnerList = new ArrayList<Partner>();
     this._transactions = new ArrayList<Transaction>();
     this._parser = new Parser(this);
-    _currentBalance = 0;
+    _availableBalance = 0;
+    _accountingBalance = 0;
   }
 
   public int getDate() {
@@ -172,7 +174,7 @@ public class Warehouse implements Serializable {
     newBreakdownSale.doBreakdownSale(product, amount, partner);
     newBreakdownSale.pay(partner);
     partner.addSale(newBreakdownSale);
-    partner.addPoints(newBreakdownSale.getValue()* 10);
+    partner.addPoints(newBreakdownSale.getValue() * 10);
     registerTransaction(newBreakdownSale);
     uptadeBatches(newBreakdownSale.getAllBatches());
   }
@@ -184,7 +186,7 @@ public class Warehouse implements Serializable {
     registerTransaction(newAcquisition);
     Batch newBatch = new Batch(partner, amount, price, product);
     addBatch(newBatch);
-    changeCurrentBalance(price);
+    changeAvailableBalance(-price);
   }
   
   Component makeNewComponent(String componentId, int quantity) {
@@ -203,8 +205,64 @@ public class Warehouse implements Serializable {
     return Collections.unmodifiableList(_transactions);
   }
 
+  Component isAgreggationPossible(Product product, int amount) {
+    List<Component> components = product.getRecipe().getComponents();
+    for (Component c : components) {
+      if (currentStock(c.getProductId()) < c.getQuantity() * amount) {
+        return c;
+      }
+    }
+    return null;
+  }
+
+  double agregation(Component component, int amount) {
+    List<Batch> allBatches = allBatchesOrdered();
+    Iterator<Batch> iter = allBatches.iterator();
+    int count = 0;
+    double totalPrice = 0;
+
+    while (count <= amount) {
+      Batch b = iter.next();
+
+      if (b.getProduct().getProductId().equals(component.getProductId())) {
+        if (b.getAvailableUnits() > amount) {
+          b.uptadeStock(-amount);
+          break;
+        }
+
+        else {
+          count += b.getAvailableUnits();
+          iter.remove();
+        }
+        totalPrice += b.getProduct().getPrice();
+      }
+    }
+    return totalPrice;
+  }
+
+  double doSingleAgreggation(Product product) {
+    List<Component> components = product.getRecipe().getComponents();
+    double totalPrice = 0;
+
+    for (Component c : components)
+      totalPrice += agregation(c, c.getQuantity());
+    return totalPrice;
+  }
+
+  double doAgreggation(Product product, int amount) {
+    double totalPrice = 0;
+    int count = 0;
+
+    while (count <= amount) {
+      totalPrice += doSingleAgreggation(product);
+      count++;
+    }
+    return totalPrice;
+  }
+
   String showTransaction(int transactionId) {
     String transaction = "";
+
     for (Transaction t : getTransactions()) {
       if (t.getTransactionId() == transactionId)
         transaction += transactionId + t.showTransaction();
@@ -213,12 +271,16 @@ public class Warehouse implements Serializable {
     return transaction;
   }
 
-  public double currentBalance() {
-    return _currentBalance;
+  public double availableBalance() {
+    return _availableBalance;
   }
 
-  public void changeCurrentBalance(double value) {
-    _currentBalance += value;
+  public double accountingBalance() {
+    return _accountingBalance;
+  }
+
+  public void changeAvailableBalance(double value) {
+    _availableBalance += value;
   }
 
   /**

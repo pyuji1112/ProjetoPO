@@ -25,9 +25,8 @@ public class DoLookupProductBatchesUnderGivenPrice extends Command<WarehouseMana
     Double limitValue = realField("Valor limite");
 
     for (Batch b : allBatches) {
-      if (b.getUnitPrice() < limitValue) {
+      if (b.getUnitPrice() < limitValue)
         _display.addLine(b.showBatch());
-      }
     }
 
     _display.display();

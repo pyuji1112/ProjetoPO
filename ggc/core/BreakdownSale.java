@@ -143,8 +143,8 @@ public class BreakdownSale extends Sale implements Serializable {
 
     @Override
     public String showTransaction() {
-        return getPartner().getId() + getProduct().getProductId() + getQuantity() + getValue() + getBaseValue()
-                + getPaymentDate() + getResultingProcuct().getProductId() + getResultingProcuct().getQuantity()
-                + getResultingProcuct().getPrice();
+        return getPartner().getId() + "|" + getProduct().getProductId() + "|" + getQuantity() + "|" + getValue() + "|"
+                + getBaseValue() + "|" + getPaymentDate() + getResultingProcuct().getProductId()
+                + getResultingProcuct().getQuantity() + getResultingProcuct().getPrice();
     }
 }
