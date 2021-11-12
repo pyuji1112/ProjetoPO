@@ -207,13 +207,21 @@ public class Warehouse implements Serializable {
     _batchesList = new ArrayList<>(batches);
   }
 
-  void doSale(Sale sale) {
-    Partner partner = searchPartnerById(sale.getPartner().getId());
-
-    sale.pay();
-    partner.addSale(sale);
-    partner.addPoints(sale.getValue() * 10);
-    registerTransaction(sale);
+  Component doSale(Sale sale) {
+    if (isSalePossible(sale.getProduct(), sale.getQuantity())) {
+      Partner partner = searchPartnerById(sale.getPartner().getId());
+      sale.pay();
+      partner.addSale(sale);
+      partner.addPoints(sale.getValue() * 10);
+      registerTransaction(sale);
+    } else {
+      if (isAgreggationPossible(sale.getProduct(), sale.getQuantity()) == null) {
+        doAgreggation(sale.getProduct(), sale.getQuantity());
+      } else {
+        return isAgreggationPossible(sale.getProduct(), sale.getQuantity());
+      }
+    }
+    return null;
   }
 
   void doBreakdownSale(String productId, int amount, String partnerId) {
@@ -236,7 +244,6 @@ public class Warehouse implements Serializable {
     registerTransaction(newAcquisition);
     Batch newBatch = new Batch(partner, amount, price, product);
     addBatch(newBatch);
-    changeAvailableBalance(-price);
   }
 
   Component makeNewComponent(String componentId, int quantity) {
@@ -263,6 +270,10 @@ public class Warehouse implements Serializable {
       }
     }
     return null;
+  }
+
+  public boolean isSalePossible(Product product, int amount) {
+    return currentStock(product.getProductId()) >= amount;
   }
 
   double agregation(Component component, int amount) {
@@ -331,6 +342,10 @@ public class Warehouse implements Serializable {
 
   public void changeAvailableBalance(double value) {
     _availableBalance += value;
+  }
+
+  public void changeAccountingBalance(double value) {
+    _accountingBalance += value;
   }
 
   /**

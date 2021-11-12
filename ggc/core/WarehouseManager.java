@@ -1,7 +1,7 @@
 package ggc.core;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -41,6 +41,14 @@ public class WarehouseManager implements Serializable {
 
   public List<Batch> getAllBatchesOrdered() {
     return _warehouse.allBatchesOrdered();
+  }
+
+  public List<Batch> getAllBatchesOf(Product p) {
+    List<Batch> productBatches = new ArrayList<Batch>();
+    for (Batch b : getAllBatches()) {
+      if (b.getProduct().getProductId().equals(p.getProductId())) productBatches.add(b);
+    }
+    return productBatches;
   }
 
   public int getCurrentStock(String productId) {
@@ -130,7 +138,14 @@ public class WarehouseManager implements Serializable {
 
   public String getAllNotificationsOf(Partner partner) {
     return _warehouse.getAllNotificationsOf(partner);
+  }
 
+  public void changeAvailableBalance(double value) {
+    _warehouse.changeAvailableBalance(value);
+  }
+
+  public void changeAccountingBalance(double value) {
+    _warehouse.changeAccountingBalance(value);
   }
 
   /**

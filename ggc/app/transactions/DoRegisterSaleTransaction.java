@@ -36,6 +36,7 @@ public class DoRegisterSaleTransaction extends Command<WarehouseManager> {
 
     Sale sale = new Sale(product, partner, quantity, limitDate);
     _receiver.doRegisterSaleTransaction(sale);
+    _receiver.changeAccountingBalance(partner.valueToPay(sale));
 
   }
 

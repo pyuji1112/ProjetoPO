@@ -31,6 +31,13 @@ public class Batch implements Serializable {
         return _suplier;
     }
 
+    public boolean hasPartner(Partner partner) {
+      for (Observer p : this._observers) {
+        if (((Partner) p).getId().equals(partner.getId())) return true;
+      }
+      return false;
+    }
+
     public int getAvailableUnits() {
         return _availableUnits;
     }

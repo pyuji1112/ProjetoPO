@@ -102,12 +102,16 @@ public class Partner implements Serializable, Observer {
   public double calculateValueNormal(Sale sale, double value, int n) {
     switch(sale.calculatePeriod(n)) {
       case P1:
+        sale.setValue(value * 0.9);
         return value * 0.9;
       case P2:
+        sale.setValue(value);
         return value;
       case P3:
+        sale.setValue(value + sale.extraDays() * (value * 0.05));
         return value + sale.extraDays() * (value * 0.05);
       case P4:
+        sale.setValue(value + sale.extraDays() * (value * 0.1));
         return value + sale.extraDays() * (value * 0.1);
     }
     return 0;
@@ -116,12 +120,16 @@ public class Partner implements Serializable, Observer {
   public double calculateValueSelection(Sale sale, double value, int n) {
     switch(sale.calculatePeriod(n)) {
       case P1:
+        sale.setValue(value * 0.9);
         return value * 0.9;
       case P2:
+        sale.setValue(sale.twoDaysBeforeDeadline() ? value * 0.95 : value);
         return sale.twoDaysBeforeDeadline() ? value * 0.95 : value;
       case P3:
+        sale.setValue(sale.oneDayAfterDeadline() ? value : value + sale.extraDays() * (value * 0.02));
         return sale.oneDayAfterDeadline() ? value : value + sale.extraDays() * (value * 0.02);
       case P4:
+        sale.setValue(value + sale.extraDays() * (value * 0.05));
         return value + sale.extraDays() * (value * 0.05);
     }
     return 0;
@@ -130,12 +138,16 @@ public class Partner implements Serializable, Observer {
   public double calculateValueElite(Sale sale, double value, int n) {
     switch(sale.calculatePeriod(n)) {
       case P1:
+        sale.setValue(value * 0.9);
         return value * 0.9;
       case P2:
+        sale.setValue(value * 0.9);
         return value * 0.9;
       case P3:
+        sale.setValue(value * 0.95);
         return value * 0.95;
       case P4:
+        sale.setValue(value);
         return value;
     }
     return 0;

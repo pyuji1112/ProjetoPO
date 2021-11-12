@@ -69,12 +69,17 @@ public class DoRegisterAcquisitionTransaction extends Command<WarehouseManager> 
       Recipe newRecipe = _receiver.makeNewRecipe(components);
       DerivedProduct newProduct = _receiver.makeNewDerivedProduct(productId, price, newRecipe, realField("Agravamento"));
       _receiver.doRegisterAcquisitionTransaction(partner, newProduct, price, amount);
+      _receiver.changeAvailableBalance(price);
+      _receiver.changeAccountingBalance(price);
     }
 
     else if (awnser.equals("Não")) {
       SimpleProduct newProduct = new SimpleProduct(productId, price);
       _receiver.doRegisterAcquisitionTransaction(partner, newProduct, price, amount);
+      _receiver.changeAvailableBalance(price);
+      _receiver.changeAccountingBalance(price);
     }
+
 
   }
 
