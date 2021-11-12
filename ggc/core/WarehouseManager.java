@@ -152,10 +152,6 @@ public class WarehouseManager implements Serializable {
     _warehouse.changeAccountingBalance(value);
   }
 
-  public boolean isLowerPrice(Product p) {
-    return _warehouse.isLowerPrice(p);
-  }
-
   /**
    * @@throws IOException
    * @@throws FileNotFoundException

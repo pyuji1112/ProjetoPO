@@ -90,7 +90,7 @@ public class Warehouse implements Serializable {
 
   String showProduct(String productId) {
     Product product = searchProductById(productId);
-    return productId + "|" + Math.round(maxPrice(productId)) + "|" + currentStock(productId) + "|" + product.toString();
+    return productId + "|" + Math.round(product.getPrice()) + "|" + currentStock(productId);
   }
 
   /* Checks if warehouse has a partner given their ID. */
@@ -109,7 +109,7 @@ public class Warehouse implements Serializable {
   public String getAllNotificationsOf(Partner partner) {
     String line = "";
     for (Batch b : this._batchesList) {
-      if (b.getNotificationType() != null && b.getObservers().contains(partner)) return line +=  b.getNotificationType() + "|" + b.getProduct().getProductId() + "|" + (int) b.getProduct().getPrice();
+      if (b.getNotificationType() != null && b.getObservers().contains(partner)) return line +=  b.getNotificationType() + "|" + b.getProduct().getProductId() + "|" + (int) b.getUnitPrice();
     }
     return "";
   }
@@ -123,15 +123,16 @@ public class Warehouse implements Serializable {
   }
 
   public void addBatch(Batch b) {
-    this._batchesList.add(b);
     if (b.getAvailableUnits() == 0) b.setNotificationType("NEW");
-    else b.setNotificationType("BARGAIN");
-    for (Partner p : this._partnerList)
+    else if (isLowerPrice(b)) b.setNotificationType("BARGAIN");
+    this._batchesList.add(b);
+    for (Partner p : this._partnerList) {
       b.addObserver(p);
+    }
   }
 
-  public boolean isLowerPrice(Product p) {
-    return Double.compare(p.getPrice(), minPrice(p.getProductId())) >= 0 ? false: true;
+  public boolean isLowerPrice(Batch b) {
+    return Double.compare(b.getUnitPrice(), b.getProduct().getPrice()) >= 0 ? false: true;
   }
 
   /* Returns the current stock of a product in the warehouse. */
@@ -164,8 +165,7 @@ public class Warehouse implements Serializable {
   }
 
   public double minPrice(String productId) {
-    double minPrice = 0;
-
+    double minPrice = maxPrice(productId);
     for (Batch b : _batchesList) {
       String currentProduct = b.getProduct().getProductId().toLowerCase();
 

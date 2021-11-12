@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.Reader;
 import java.io.Serializable;
+import java.util.*;
 
 import ggc.core.exception.BadEntryException;
 import ggc.core.Warehouse;
@@ -91,31 +92,23 @@ public class Parser implements Serializable {
 
     String idProduct = components[1];
     String idPartner = components[2];
-
-    // add code here to do the following
-    // if (!_store does not have product with idProduct) {
-    // ArrayList<Product> products = new ArrayList<>();
-    // ArrayList<Integer> quantities = new ArrayList<>();
-    //
-    // for (String component : components[6].split("#")) {
-    // String[] recipeComponent = component.split(":");
-    // // add code here to
-    // // products.add(get Product with id recipeComponent[0]);
-    // quantities.add(Integer.parseInt(recipeComponent[1]));
-    // }
-
-    // add code here to
-    // register in _store aggregate product with idProduct,
-    // aggravation=Double.parseDouble(components[5])
-    // and recipe given by products and quantities);
-    // }
-
-    // add code here to
-    // Product product = get Product in _store with productId;
-    // Partner partner = get Partner in _store with partnerId;
     double price = Double.parseDouble(components[3]);
     int stock = Integer.parseInt(components[4]);
-    // add code here to
-    // add batch with price, stock and partner to product
+    double aggravation = Double.parseDouble(components[5]);
+    List<Component> componentsList = new ArrayList<>();
+
+    if (!_store.hasProduct(idProduct)) {
+
+      for (String component : components[6].split("#")) {
+        String[] recipeComponent = component.split(":");
+        Component c = new Component(recipeComponent[0], Integer.parseInt(recipeComponent[1]));
+        componentsList.add(c);
+      }
+      Partner partner = _store.searchPartnerById(idPartner);
+      Recipe recipe = new Recipe(componentsList);
+      DerivedProduct derivedProduct = new DerivedProduct(idProduct, price, recipe, aggravation);
+      _store.addBatch(new Batch(partner, stock, price, derivedProduct));
+
+    }
   }
 }
