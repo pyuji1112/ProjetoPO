@@ -13,10 +13,6 @@ public class Sale extends Transaction implements Serializable {
     super(product, partner, quantity, paymentDate);
   }
 
-  public Date getLimitDate() {
-    return this._limitDate;
-  }
-
   public Period calculatePeriod(int n) {
     if (this.getLimitDate().getDate() - this.getPaymentDate().getDate() >= n) return Period.P1;
     else if (this.getLimitDate().getDate() - this.getPaymentDate().getDate() < n) return Period.P2;
@@ -42,5 +38,13 @@ public class Sale extends Transaction implements Serializable {
     return "VENDA|" + this._id + "|" + this.getPartner().getId() + "|" + this.getProduct().getProductId() + "|"
     + this.getQuantity() + "|" + this.getValue() + "|" + this.getPartner().valueToPay(this) + "|"
     + this.getLimitDate().getDate() + "|" + this.getPaymentDate().getDate();
+  }
+
+  public int getId() {
+    return this._id;
+  }
+
+  public Date getLimitDate() {
+    return this._limitDate;
   }
 }

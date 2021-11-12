@@ -27,6 +27,7 @@ public class Warehouse implements Serializable {
   private double _accountingBalance;
   private Date _date = new Date();
 
+
   public Warehouse() {
     this._batchesList = new ArrayList<Batch>();
     this._partnerList = new ArrayList<Partner>();
@@ -105,6 +106,14 @@ public class Warehouse implements Serializable {
     return Collections.unmodifiableList(_batchesList);
   }
 
+  public String getAllNotificationsOf(Partner partner) {
+    String line = "";
+    for (Batch b : this._batchesList) {
+      if (b.getObservers().contains(partner)) return line += '\n' + b.getNotificationType() + "|" + b.getProduct().getProductId() + "|" + b.getProduct().getPrice();
+    }
+    return "";
+  }
+
   /* Returns a copy of the list of batches, but ordered. */
   public List<Batch> allBatchesOrdered() {
     List<Batch> copy = new ArrayList<Batch>();
@@ -115,6 +124,14 @@ public class Warehouse implements Serializable {
 
   public void addBatch(Batch b) {
     this._batchesList.add(b);
+    if (b.getAvailableUnits() == 0) b.setNotificationType("NEW");
+    else if (isLowerPrice(b.getProduct())) b.setNotificationType("BARGAIN");
+    for (Partner p : this._partnerList)
+      b.addObserver(p);
+  }
+
+  public boolean isLowerPrice(Product p) {
+    return Double.compare(p.getPrice(), minPrice(p.getProductId())) >= 0 ? false: true;
   }
 
   /* Returns the current stock of a product in the warehouse. */
@@ -146,6 +163,20 @@ public class Warehouse implements Serializable {
     return maxPrice;
   }
 
+  public double minPrice(String productId) {
+    double minPrice = 0;
+
+    for (Batch b : _batchesList) {
+      String currentProduct = b.getProduct().getProductId().toLowerCase();
+
+      if (currentProduct.equals(productId) && minPrice > b.getUnitPrice()) {
+        minPrice = b.getUnitPrice();
+      }
+    }
+
+    return minPrice;
+  }
+
   public boolean batchHasPartner(String partner) {
     for (Batch b : _batchesList) {
       if (b.getSuplier().getId().toLowerCase().equals(partner.toLowerCase())) {
@@ -164,6 +195,8 @@ public class Warehouse implements Serializable {
     }
     return false;
   }
+
+
 
   void registerTransaction(Transaction transaction) {
     _transactions.add(transaction);

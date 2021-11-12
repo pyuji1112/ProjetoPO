@@ -8,7 +8,7 @@ import ggc.core.Batch;
 import ggc.core.Transaction;
 import ggc.core.Product;
 
-public class Partner implements Serializable {
+public class Partner implements Serializable, Observer {
 
   private String _name;
   private String _address;
@@ -18,7 +18,6 @@ public class Partner implements Serializable {
   private List<Acquisition> _acquisitions;
   private List<Sale> _sales;
   private List<Batch> _batches;
-  private List<Notification> _notifications;
 
   public Partner(String id, String name, String address) {
     this._id = id;
@@ -28,7 +27,6 @@ public class Partner implements Serializable {
     this._acquisitions = new ArrayList<Acquisition>();
     this._batches = new ArrayList<Batch>();
     this._sales = new ArrayList<Sale>();
-    this._notifications = new ArrayList<Notification>();
   }
 
   public String getName() {
@@ -79,13 +77,6 @@ public class Partner implements Serializable {
     this._batches.remove(batch);
   }
 
-  public void addNotification(Notification notification) {
-    this._notifications.add(notification);
-  }
-
-  public void removeNotification(Notification notification) {
-    this._notifications.remove(notification);
-  }
 
   /* Determines the status of the partner based on their points */
   public void determineStatus() {
@@ -202,9 +193,6 @@ public class Partner implements Serializable {
   @Override
   public String toString() {
     String toBeReturned = this._id + "|" + this._name + "|" + this._address + "|" + this._status.name() + "|" + (int) this._points + "|" + (int) this.getTotalValue() + "|" + (int) this.getRawValue() + "|" + (int) this.getValuePaid();
-    if (!this._notifications.isEmpty()) {
-      for (Notification n : this._notifications) toBeReturned += '\n' + n.getType() + "|" + n.getProduct().getProductId() + "|" + n.getProduct().getPrice();
-    }
     return toBeReturned;
   }
 }

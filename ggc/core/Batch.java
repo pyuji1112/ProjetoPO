@@ -1,12 +1,15 @@
 package ggc.core;
 
 import java.io.Serializable;
+import java.util.*;
 
 public class Batch implements Serializable {
     private Partner _suplier;
     private int _availableUnits;
     private double _unitPrice;
     private Product _product;
+    private Set<Observer> _observers = new HashSet<Observer>();
+    private String _notificationType;
 
     /**
      * @param {type} Partner suplier
@@ -37,6 +40,14 @@ public class Batch implements Serializable {
         return _product;
     }
 
+    public void setNotificationType(String type) {
+      this._notificationType = type;
+    }
+
+    public String getNotificationType() {
+      return this._notificationType;
+    }
+
     /**
      * public String - Returns a string with all batch attributes.
      *
@@ -48,6 +59,19 @@ public class Batch implements Serializable {
     }
 
     int uptadeStock(int quantity) {
-        return _availableUnits + quantity;
+      return _availableUnits + quantity;
     }
+
+    public boolean addObserver(Observer obs) {
+      return _observers.add(obs);
+    }
+
+    public boolean removeObserver(Observer obs) {
+      return _observers.remove(obs);
+    }
+
+    public Set<Observer> getObservers() {
+      return this._observers;
+    }
+
 }

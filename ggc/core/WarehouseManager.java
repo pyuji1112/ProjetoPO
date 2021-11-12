@@ -128,6 +128,11 @@ public class WarehouseManager implements Serializable {
     return _warehouse.makeNewDerivedProduct(productId, price, recipe, alpha);
   }
 
+  public String getAllNotificationsOf(Partner partner) {
+    return _warehouse.getAllNotificationsOf(partner);
+
+  }
+
   /**
    * @@throws IOException
    * @@throws FileNotFoundException
