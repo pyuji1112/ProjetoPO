@@ -27,7 +27,7 @@ public class WarehouseManager implements Serializable {
     return _filename.equals("");
   }
 
-  public int getDate() {
+  public Date getDate() {
     return _warehouse.getDate();
   }
 

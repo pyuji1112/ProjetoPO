@@ -36,8 +36,8 @@ public class Warehouse implements Serializable {
     _accountingBalance = 0;
   }
 
-  public int getDate() {
-    return _date.getDate();
+  public Date getDate() {
+    return _date;
   }
 
   public void skipDays(int days) {
@@ -81,7 +81,7 @@ public class Warehouse implements Serializable {
 
   String showProduct(String productId) {
     Product product = searchProductById(productId);
-    return productId + "|" + Math.round(maxPrice(productId)) + "|" + currentStock(productId) + "|" + product.showProduct();
+    return productId + "|" + Math.round(maxPrice(productId)) + "|" + currentStock(productId) + "|" + product.toString();
   }
 
   /* Checks if warehouse has a partner given their ID. */
@@ -172,7 +172,7 @@ public class Warehouse implements Serializable {
 
     BreakdownSale newBreakdownSale = new BreakdownSale(product, partner, amount, getDate(), allBatches());
     newBreakdownSale.doBreakdownSale(product, amount, partner);
-    newBreakdownSale.pay(partner);
+    newBreakdownSale.pay();
     partner.addSale(newBreakdownSale);
     partner.addPoints(newBreakdownSale.getValue() * 10);
     registerTransaction(newBreakdownSale);
@@ -181,14 +181,14 @@ public class Warehouse implements Serializable {
 
   void doAcquisition(Partner partner, Product product, double price, int amount) {
     Acquisition newAcquisition = new Acquisition(product, partner, amount, getDate());
-    newAcquisition.pay(partner);
+    newAcquisition.pay();
     partner.addAcquisition(newAcquisition);
     registerTransaction(newAcquisition);
     Batch newBatch = new Batch(partner, amount, price, product);
     addBatch(newBatch);
     changeAvailableBalance(-price);
   }
-  
+
   Component makeNewComponent(String componentId, int quantity) {
     return new Component(componentId, quantity);
   }
@@ -265,7 +265,7 @@ public class Warehouse implements Serializable {
 
     for (Transaction t : getTransactions()) {
       if (t.getTransactionId() == transactionId)
-        transaction += transactionId + t.showTransaction();
+        transaction += transactionId + t.toString();
         break;
     }
     return transaction;

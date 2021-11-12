@@ -59,6 +59,12 @@ public class Partner implements Serializable {
     this._points += points;
   }
 
+  public List<Sale> getSalesList() {
+    List<Sale> copy = new ArrayList<Sale>();
+    copy.addAll(this._sales);
+    return copy;
+  }
+
   public void addBatch(Batch batch) {
     this._batches.add(batch);
   }
@@ -82,12 +88,60 @@ public class Partner implements Serializable {
     else this._status = Status.NORMAL;
   }
 
-  public void pay(Transaction transaction) {
-    transaction.pay(this);
+  public double valueToPay(Sale sale) {
+    int n = 0;
+    int value = 0;
+    if (sale.getProduct() instanceof SimpleProduct) n = 5;
+    else if (sale.getProduct() instanceof AggregateProduct) n = 3;
+    else return 0;
+
+    if (this._status.equals(Status.NORMAL)) return calculateValueNormal(sale, value, n);
+    else if (this._status.equals(Status.SELECTION)) return calculateValueSelection(sale, value, n);
+    else if (this._status.equals(Status.ELITE)) return calculateValueElite(sale, value, n);
+
+    return 0;
   }
 
-  public void toggleNotification(Product product) {
+  public double calculateValueNormal(Sale sale, double value, int n) {
+    switch(sale.calculatePeriod(n)) {
+      case P1:
+        return value * 0.9;
+      case P2:
+        return value;
+      case P3:
+        return value + sale.extraDays() * (value * 0.05);
+      case P4:
+        return value + sale.extraDays() * (value * 0.1);
+    }
+    return 0;
+  }
 
+  public double calculateValueSelection(Sale sale, double value, int n) {
+    switch(sale.calculatePeriod(n)) {
+      case P1:
+        return value * 0.9;
+      case P2:
+        return sale.twoDaysBeforeDeadline() ? value * 0.95 : value;
+      case P3:
+        return sale.oneDayAfterDeadline() ? value : value + sale.extraDays() * (value * 0.02);
+      case P4:
+        return value + sale.extraDays() * (value * 0.05);
+    }
+    return 0;
+  }
+
+  public double calculateValueElite(Sale sale, double value, int n) {
+    switch(sale.calculatePeriod(n)) {
+      case P1:
+        return value * 0.9;
+      case P2:
+        return value * 0.9;
+      case P3:
+        return value * 0.95;
+      case P4:
+        return value;
+    }
+    return 0;
   }
 
   public double getTotalValue() {

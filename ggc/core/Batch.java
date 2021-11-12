@@ -42,7 +42,7 @@ public class Batch implements Serializable {
      *
      * @return {type} String
      */
-    public String showBatch() {
+    public String toString() {
         return getProduct().getProductId() + "|" + getSuplier().getId() + "|" + Math.round(getUnitPrice()) + "|"
                 + getAvailableUnits();
     }

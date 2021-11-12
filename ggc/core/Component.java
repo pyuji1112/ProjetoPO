@@ -24,10 +24,4 @@ public class Component extends Product implements Serializable {
         // TODO Auto-generated method stub
         return null;
     }
-
-    @Override
-    public String showProduct() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

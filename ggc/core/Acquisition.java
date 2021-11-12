@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Acquisition extends Transaction implements Serializable {
 
-  public Acquisition(Product product, Partner partner, int quantity, int paymentDate) {
+  public Acquisition(Product product, Partner partner, int quantity, Date paymentDate) {
     super(product, partner, quantity, paymentDate);
   }
 
@@ -17,7 +17,7 @@ public class Acquisition extends Transaction implements Serializable {
   }
 
   @Override
-  public String showTransaction() {
+  public String toString() {
     return getPartner().getId() + "|" + getProduct().getProductId() + "|" + getQuantity() + "|" + getValue() + "|" + getPaymentDate();
   }
 }

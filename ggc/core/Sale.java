@@ -5,43 +5,42 @@ import java.io.Serializable;
 import ggc.core.Date;
 
 public class Sale extends Transaction implements Serializable {
-  
-  public Sale(Product product, Partner partner, int quantity, int paymentDate) {
+
+  private int _id;
+  private Date _limitDate;
+
+  public Sale(Product product, Partner partner, int quantity, Date paymentDate) {
     super(product, partner, quantity, paymentDate);
   }
 
-  private int _limitDate;
-
-  public int getLimitDate() {
+  public Date getLimitDate() {
     return this._limitDate;
   }
 
-  public Period calculatePeriod(int n, int date) {
-    if (this.getLimitDate() - date >= n) return Period.P1;
-    else if (this.getLimitDate() - date < n) return Period.P2;
-    else if (0 < date - this.getLimitDate() && date - this.getLimitDate() <= n) return Period.P3;
-    else if (date - this.getLimitDate() > n) return Period.P4;
+  public Period calculatePeriod(int n) {
+    if (this.getLimitDate().getDate() - this.getPaymentDate().getDate() >= n) return Period.P1;
+    else if (this.getLimitDate().getDate() - this.getPaymentDate().getDate() < n) return Period.P2;
+    else if (0 < this.getPaymentDate().getDate() - this.getLimitDate().getDate() && this.getPaymentDate().getDate() - this.getLimitDate().getDate() <= n) return Period.P3;
+    else if (this.getPaymentDate().getDate() - this.getLimitDate().getDate() > n) return Period.P4;
     return null;
   }
 
-  public void pay(Partner partner) {
-    switch(partner.getStatus()) {
-      case NORMAL:
-        break;
-      case SELECTION:
-        break;
-      case ELITE:
-        break;
-    }
+  public int extraDays() {
+    return this.getPaymentDate().getDate() - this._limitDate.getDate();
   }
 
-  public boolean isPaid() {
-    return false;
+  public boolean twoDaysBeforeDeadline() {
+    return this._limitDate.getDate() - this.getPaymentDate().getDate() == 2;
+  }
+
+  public boolean oneDayAfterDeadline() {
+    return extraDays() == 1;
   }
 
   @Override
-  public String showTransaction() {
-    // TODO Auto-generated method stub
-    return null;
+  public String toString() {
+    return "VENDA|" + this._id + "|" + this.getPartner().getId() + "|" + this.getProduct().getProductId() + "|"
+    + this.getQuantity() + "|" + this.getValue() + "|" + this.getPartner().valueToPay(this) + "|"
+    + this.getLimitDate().getDate() + "|" + this.getPaymentDate().getDate();
   }
 }

@@ -2,9 +2,9 @@ package ggc.core;
 
 import java.io.Serializable;
 
-public class SimpleProduct extends Product implements Serializable {
+public class AggregateProduct extends Product implements Serializable {
 
-    public SimpleProduct(String productId, double price) {
+    public AggregateProduct(String productId, double price) {
         super(productId, price);
     }
 

@@ -28,6 +28,4 @@ public abstract class Product implements Serializable {
 
     public abstract Recipe getRecipe();
 
-    public abstract String showProduct();
-
 }

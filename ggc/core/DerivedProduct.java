@@ -23,12 +23,12 @@ public class DerivedProduct extends Product implements Serializable {
     /**
      * public showProduct - Returns a string with all product attributes, including
      * the attributes of the recipe.
-     * 
+     *
      * @return {type} String
      */
 
     @Override
-    public String showProduct() {
+    public String toString() {
         String display = "" + getAlpha() + "|";
         int i = 0;
 
