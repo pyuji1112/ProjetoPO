@@ -109,7 +109,7 @@ public class Warehouse implements Serializable {
   public String getAllNotificationsOf(Partner partner) {
     String line = "";
     for (Batch b : this._batchesList) {
-      if (b.getObservers().contains(partner)) return line += '\n' + b.getNotificationType() + "|" + b.getProduct().getProductId() + "|" + b.getProduct().getPrice();
+      if (b.getNotificationType() != null && b.getObservers().contains(partner)) return line +=  b.getNotificationType() + "|" + b.getProduct().getProductId() + "|" + (int) b.getProduct().getPrice();
     }
     return "";
   }
@@ -125,7 +125,7 @@ public class Warehouse implements Serializable {
   public void addBatch(Batch b) {
     this._batchesList.add(b);
     if (b.getAvailableUnits() == 0) b.setNotificationType("NEW");
-    else if (isLowerPrice(b.getProduct())) b.setNotificationType("BARGAIN");
+    else b.setNotificationType("BARGAIN");
     for (Partner p : this._partnerList)
       b.addObserver(p);
   }
@@ -239,6 +239,7 @@ public class Warehouse implements Serializable {
 
   void doAcquisition(Partner partner, Product product, double price, int amount) {
     Acquisition newAcquisition = new Acquisition(product, partner, amount, getDate());
+    newAcquisition.setValue(price);
     newAcquisition.pay();
     partner.addAcquisition(newAcquisition);
     registerTransaction(newAcquisition);

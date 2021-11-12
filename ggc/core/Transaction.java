@@ -48,7 +48,7 @@ public abstract class Transaction implements Serializable {
     _transactionId++;
   }
 
-  void setValue(double value) {
+  public void setValue(double value) {
     _value = value;
   }
 

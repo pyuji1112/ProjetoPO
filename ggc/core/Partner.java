@@ -153,33 +153,24 @@ public class Partner implements Serializable, Observer {
     return 0;
   }
 
-  public double getTotalValue() {
+  public double getAcquisitionsValue() {
     double value = 0;
     for (Acquisition a : this._acquisitions) {
-      value += a.getValue();
+      value += a.getValue() * a.getQuantity();
     }
+    return value;
+  }
+
+  public double getSalesDone() {
+    double value = 0;
     for (Sale s : this._sales) {
       value += s.getValue();
     }
     return value;
   }
 
-  public double getRawValue() {
+  public double getSalesPaid() {
     double value = 0;
-    for (Acquisition a : this._acquisitions) {
-      if (a.isPaid()) value += a.getValue();
-    }
-    for (Sale s : this._sales) {
-      if (s.isPaid()) value += s.getValue();
-    }
-    return value;
-  }
-
-  public double getValuePaid() {
-    double value = 0;
-    for (Acquisition a : this._acquisitions) {
-      if (a.isPaid()) value += a.getValue();
-    }
     for (Sale s : this._sales) {
       if (s.isPaid()) value += s.getValue();
     }
@@ -204,7 +195,7 @@ public class Partner implements Serializable, Observer {
 
   @Override
   public String toString() {
-    String toBeReturned = this._id + "|" + this._name + "|" + this._address + "|" + this._status.name() + "|" + (int) this._points + "|" + (int) this.getTotalValue() + "|" + (int) this.getRawValue() + "|" + (int) this.getValuePaid();
+    String toBeReturned = this._id + "|" + this._name + "|" + this._address + "|" + this._status.name() + "|" + (int) this._points + "|" + (int) this.getAcquisitionsValue() + "|" + (int) this.getSalesDone() + "|" + (int) this.getSalesPaid();
     return toBeReturned;
   }
 }

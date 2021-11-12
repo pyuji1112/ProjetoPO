@@ -42,44 +42,44 @@ public class DoRegisterAcquisitionTransaction extends Command<WarehouseManager> 
     if (!_receiver.hasPartner(partnerId))
       throw new UnknownPartnerKeyException(partnerId);
 
-    if (_receiver.hasProduct(productId)) {
+    else if (_receiver.hasProduct(productId)) {
       Product product = _receiver.searchProductById(productId);
       _receiver.doRegisterAcquisitionTransaction(partner, product, price, amount);
     }
+    else {
+      Form f = new Form("Receita");
+      f.addStringField("Receita", Message.requestAddRecipe());
+      f.parse();
+      String awnser = f.stringField("Receita");
 
-    Form f = new Form("Receita");
-    f.addStringField("Receita", Message.requestAddRecipe());
-    f.parse();
-    String awnser = f.stringField("Receita");
+      if (awnser.equals("Sim")) {
+        addIntegerField("Número de componentes", Message.requestNumberOfComponents());
+        addRealField("Agravamento", Message.requestAlpha());
 
-    if (awnser.equals("Sim")) {
-      addIntegerField("Número de componentes", Message.requestNumberOfComponents());
-      addRealField("Agravamento", Message.requestAlpha());
+        int componentsNumber = integerField("Número de componentes");
+        int count = 0;
+        List<Component> components = new ArrayList<>();
 
-      int componentsNumber = integerField("Número de componentes");
-      int count = 0;
-      List<Component> components = new ArrayList<>();
-
-      while (count <= componentsNumber) {
-        addStringField("Identificador do componente", Message.requestProductKey());
-        addIntegerField("Quantidade do componente", Message.requestAmount());
-        Component newComponent = _receiver.makeNewComponent(stringField("Identificador do Componente"), integerField("Quantidade do componente"));
-        components.add(newComponent);
+        while (count <= componentsNumber) {
+          addStringField("Identificador do componente", Message.requestProductKey());
+          addIntegerField("Quantidade do componente", Message.requestAmount());
+          Component newComponent = _receiver.makeNewComponent(stringField("Identificador do Componente"), integerField("Quantidade do componente"));
+          components.add(newComponent);
+        }
+        Recipe newRecipe = _receiver.makeNewRecipe(components);
+        DerivedProduct newProduct = _receiver.makeNewDerivedProduct(productId, price, newRecipe, realField("Agravamento"));
+        _receiver.doRegisterAcquisitionTransaction(partner, newProduct, price, amount);
+        _receiver.changeAvailableBalance(price);
+        _receiver.changeAccountingBalance(price);
       }
-      Recipe newRecipe = _receiver.makeNewRecipe(components);
-      DerivedProduct newProduct = _receiver.makeNewDerivedProduct(productId, price, newRecipe, realField("Agravamento"));
-      _receiver.doRegisterAcquisitionTransaction(partner, newProduct, price, amount);
-      _receiver.changeAvailableBalance(price);
-      _receiver.changeAccountingBalance(price);
-    }
 
-    else if (awnser.equals("Não")) {
-      SimpleProduct newProduct = new SimpleProduct(productId, price);
-      _receiver.doRegisterAcquisitionTransaction(partner, newProduct, price, amount);
-      _receiver.changeAvailableBalance(price);
-      _receiver.changeAccountingBalance(price);
+      else if (awnser.equals("Não")) {
+        SimpleProduct newProduct = new SimpleProduct(productId, price);
+        _receiver.doRegisterAcquisitionTransaction(partner, newProduct, price, amount);
+        _receiver.changeAvailableBalance(price);
+        _receiver.changeAccountingBalance(price);
+      }
     }
-
 
   }
 

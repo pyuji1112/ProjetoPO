@@ -58,15 +58,6 @@ public class Batch implements Serializable {
       return this._notificationType;
     }
 
-    /**
-     * public String - Returns a string with all batch attributes.
-     *
-     * @return {type} String
-     */
-    public String toString() {
-        return getProduct().getProductId() + "|" + getSuplier().getId() + "|" + Math.round(getUnitPrice()) + "|"
-                + getAvailableUnits();
-    }
 
     int uptadeStock(int quantity) {
       return _availableUnits + quantity;
@@ -84,4 +75,13 @@ public class Batch implements Serializable {
       return this._observers;
     }
 
+    /**
+    * public String - Returns a string with all batch attributes.
+    *
+    * @return {type} String
+    */
+    public String toString() {
+      return getProduct().getProductId() + "|" + getSuplier().getId() + "|" + Math.round(getUnitPrice()) + "|"
+      + getAvailableUnits();
+    }
 }
