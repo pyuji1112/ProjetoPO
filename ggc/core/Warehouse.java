@@ -166,6 +166,15 @@ public class Warehouse implements Serializable {
     _batchesList = new ArrayList<>(batches);
   }
 
+  void doSale(Sale sale) {
+    Partner partner = searchPartnerById(sale.getPartner().getId());
+
+    sale.pay();
+    partner.addSale(sale);
+    partner.addPoints(sale.getValue() * 10);
+    registerTransaction(sale);
+  }
+
   void doBreakdownSale(String productId, int amount, String partnerId) {
     Product product = searchProductById(productId);
     Partner partner = searchPartnerById(partnerId);

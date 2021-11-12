@@ -96,6 +96,10 @@ public class WarehouseManager implements Serializable {
     return _warehouse.accountingBalance();
   }
 
+  public void doRegisterSaleTransaction(Sale sale) {
+    _warehouse.doSale(sale);
+  }
+
   public void doRegisterBreakdownTransaction(String productId, int amount, String partnerId) {
     _warehouse.doBreakdownSale(productId, amount, partnerId);
   }
