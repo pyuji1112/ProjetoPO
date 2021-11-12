@@ -65,6 +65,12 @@ public class Partner implements Serializable {
     return copy;
   }
 
+  public List<Acquisition> getAcquisitionsList() {
+    List<Acquisition> copy = new ArrayList<Acquisition>();
+    copy.addAll(this._acquisitions);
+    return copy;
+  }
+
   public void addBatch(Batch batch) {
     this._batches.add(batch);
   }

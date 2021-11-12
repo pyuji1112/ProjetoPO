@@ -5,7 +5,9 @@ import pt.tecnico.uilib.menus.CommandException;
 
 import ggc.app.exception.UnknownPartnerKeyException;
 import ggc.core.WarehouseManager;
-//FIXME import classes
+import ggc.core.Partner;
+import ggc.core.Sale;
+import ggc.core.Acquisition;
 
 /**
  * Lookup payments by given partner.
@@ -14,19 +16,27 @@ public class DoLookupPaymentsByPartner extends Command<WarehouseManager> {
 
   public DoLookupPaymentsByPartner(WarehouseManager receiver) {
     super(Label.PAID_BY_PARTNER, receiver);
-    addStringField("Parceiro", Message.requestPartnerKey());
+    addStringField("partnerId", Message.requestPartnerKey());
   }
 
   @Override
   public void execute() throws CommandException {
-    String partner = stringField("Parceiro");
+    String partnerId = stringField("partnerId");
 
-    if (!_receiver.hasPartner(partner)) {
-      throw new UnknownPartnerKeyException(partner);
+    if (!_receiver.hasPartner(partnerId)) {
+      throw new UnknownPartnerKeyException(partnerId);
     }
 
-    
-    //FIXME implement command
+    Partner p = _receiver.searchPartnerById(partnerId);
+    for (Sale s : p.getSalesList()) {
+      if (s.isPaid()) _display.addLine(s.toString());
+    }
+    for (Acquisition a : p.getAcquisitionsList()) {
+      if (a.isPaid()) _display.addLine(a.toString());
+    }
+
+    _display.display();
+
   }
 
 }
