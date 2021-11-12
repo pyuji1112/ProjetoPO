@@ -15,11 +15,7 @@ Escolha uma opção: Gestão de Produtos
 3 - Visualizar lotes fornecidos por parceiro
 4 - Visualizar lotes de um dado produto
 0 - Sair
-Escolha uma opção: Identificador do parceiro: R1|António Figueiredo|Lisboa|NORMAL|0|0|0|0
-R1|António Figueiredo|Lisboa|NORMAL|0|0|0|0
-R1|António Figueiredo|Lisboa|NORMAL|0|0|0|0
-R1|António Figueiredo|Lisboa|NORMAL|0|0|0|0
-R1|António Figueiredo|Lisboa|NORMAL|0|0|0|0
+Escolha uma opção: Identificador do produto: Visualizar lotes de um dado produto: Operação inválida: O produto 'HIDROGENIO' não existe.
 Gestão de Produtos
 1 - Visualizar todos os produtos
 2 - Visualizar todos os lotes

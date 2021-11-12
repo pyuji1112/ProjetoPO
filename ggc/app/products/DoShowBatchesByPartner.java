@@ -29,8 +29,9 @@ class DoShowBatchesByPartner extends Command<WarehouseManager> implements Messag
       throw new UnknownPartnerKeyException(partnerId);
     }
 
-    for (Batch b : allBatches)
-      _display.addLine(_receiver.searchPartnerById(partnerId));
+    for (Batch b : allBatches) {
+      if (b.getSuplier().equals(_receiver.searchPartnerById(partnerId))) _display.addLine(b.toString());
+    }
 
     _display.display();
   }
