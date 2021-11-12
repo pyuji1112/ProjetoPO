@@ -20,9 +20,10 @@ class DoShowPartnerAcquisitions extends Command<WarehouseManager> {
   public void execute() throws CommandException {
     String partnerId = stringField("PartnerId");
     Partner p = _receiver.searchPartnerById(partnerId);
-    for (Acquisition a : p.getAcquisitionsList()) {
+
+    for (Acquisition a : p.getAcquisitionsList())
       _display.addLine(a.toString());
-    }
+      
     _display.display();
   }
 
