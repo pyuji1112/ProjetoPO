@@ -71,6 +71,10 @@ public class WarehouseManager implements Serializable {
     return this._warehouse.searchPartnerById(id);
   }
 
+  public Transaction searchTransactionById(int id) {
+    return _warehouse.searchTransactionById(id);
+  }
+
   public Product searchProductById(String productId) {
     return _warehouse.searchProductById(productId);
   }

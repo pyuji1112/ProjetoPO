@@ -79,6 +79,14 @@ public class Warehouse implements Serializable {
     return null;
   }
 
+  public Transaction searchTransactionById(int id) {
+    for (Transaction t : _transactions) {
+      if (t.getTransactionId() == id)
+        return t;
+    }
+    return null;
+  }
+
   String showProduct(String productId) {
     Product product = searchProductById(productId);
     return productId + "|" + Math.round(maxPrice(productId)) + "|" + currentStock(productId) + "|" + product.toString();

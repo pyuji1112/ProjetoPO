@@ -98,7 +98,7 @@ public class Partner implements Serializable {
     int n = 0;
     int value = 0;
     if (sale.getProduct() instanceof SimpleProduct) n = 5;
-    else if (sale.getProduct() instanceof AggregateProduct) n = 3;
+    else if (sale.getProduct() instanceof DerivedProduct) n = 3;
     else return 0;
 
     if (this._status.equals(Status.NORMAL)) return calculateValueNormal(sale, value, n);
