@@ -10,6 +10,7 @@ public class Batch implements Serializable {
     private Product _product;
     private Set<Observer> _observers = new HashSet<Observer>();
     private String _notificationType;
+    private List<Media> _media = new ArrayList<Media>();
 
     /**
      * @param {type} Partner suplier
@@ -22,6 +23,8 @@ public class Batch implements Serializable {
         _availableUnits = availableUnits;
         _unitPrice = unitPrice;
         _product = product;
+        _media = Arrays.asList(Media.values());
+
     }
 
     public Partner getSuplier() {
