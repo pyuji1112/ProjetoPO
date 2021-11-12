@@ -8,6 +8,8 @@ import ggc.core.Product;
 import ggc.core.Sale;
 import ggc.core.Date;
 import ggc.app.exception.UnavailableProductException;
+import ggc.app.exception.UnknownPartnerKeyException;
+import ggc.app.exception.UnknownProductKeyException;
 
 /**
  *
@@ -24,16 +26,25 @@ public class DoRegisterSaleTransaction extends Command<WarehouseManager> {
 
   @Override
   public final void execute() throws CommandException {
-    Partner partner = _receiver.searchPartnerById(stringField("Partner"));
+    String partnerId = stringField("Partner");
+    String productId = stringField("Product");
     Date limitDate = new Date(integerField("LimitDate"));
-    Product product  = _receiver.searchProductById(stringField("Product"));
     int quantity = integerField("Quantity");
-    int currentStock = _receiver.getCurrentStock(product.getProductId());
+
+    if (!_receiver.hasPartner(partnerId))
+      throw new UnknownPartnerKeyException(partnerId);
+
+    if (!_receiver.hasProduct(productId))
+      throw new UnknownProductKeyException(partnerId);
+
+    Partner partner = _receiver.searchPartnerById(partnerId);
+    Product product  = _receiver.searchProductById(productId);
+    int currentStock = _receiver.getCurrentStock(productId);
 
     if (quantity > currentStock)
-      throw new UnavailableProductException(product.getProductId(), quantity, currentStock);
+      throw new UnavailableProductException(productId, quantity, currentStock);
 
-
+    System.out.println(partner.getId());
     Sale sale = new Sale(product, partner, quantity, limitDate);
     _receiver.doRegisterSaleTransaction(sale);
     _receiver.changeAccountingBalance(partner.valueToPay(sale));

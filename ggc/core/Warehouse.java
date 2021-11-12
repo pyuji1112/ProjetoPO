@@ -332,6 +332,13 @@ public class Warehouse implements Serializable {
     return transaction;
   }
 
+  public boolean hasTransaction(int transactionId) {
+    for (Transaction t : this._transactions) {
+      if (t.getTransactionId() == transactionId) return true;
+    }
+    return false;
+  }
+
   public double availableBalance() {
     return _availableBalance;
   }

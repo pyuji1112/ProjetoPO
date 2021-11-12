@@ -67,6 +67,10 @@ public class WarehouseManager implements Serializable {
     return _warehouse.hasProduct(product);
   }
 
+  public boolean hasTransaction(int id) {
+    return _warehouse.hasTransaction(id);
+  }
+
   public void registerPartner(Partner p) {
     this._warehouse.registerPartner(p);
   }
