@@ -19,7 +19,6 @@ class DoShowBatchesByProduct extends Command<WarehouseManager> implements Messag
 
   DoShowBatchesByProduct(WarehouseManager receiver) {
     super(Label.SHOW_BATCHES_BY_PRODUCT, receiver);
-    // FIXME maybe add command fields
     addStringField("Produto", Message.requestProductKey());
   }
 
