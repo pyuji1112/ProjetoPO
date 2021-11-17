@@ -62,8 +62,9 @@ public class Warehouse implements Serializable {
    */
   public Partner searchPartnerById(String id) {
     for (Partner p : this._partnerList) {
-      if (p.getId().toLowerCase().equals(id.toLowerCase()))
+      if (p.getId().toLowerCase().equals(id.toLowerCase())){
         return p;
+      }
     }
     return null;
   }
@@ -109,9 +110,19 @@ public class Warehouse implements Serializable {
   public String getAllNotificationsOf(Partner partner) {
     String line = "";
     for (Batch b : this._batchesList) {
-      if (b.getNotificationType() != null && b.getObservers().contains(partner)) return line +=  b.getNotificationType() + "|" + b.getProduct().getProductId() + "|" + (int) b.getUnitPrice();
+      if (b.getNotificationType() != null && b.getObservers().contains(partner)) {
+        line += b.getNotificationType() + "|" + b.getProduct().getProductId() + "|" + (int) b.getUnitPrice() + '\n';
+      }
     }
-    return "";
+    return line.equals("") ? "" : line.substring(0, line.length() - 1);
+  }
+
+  public void removePartnerNotification(Partner p) {
+    for (Batch b : this._batchesList) {
+      if (b.getNotificationType() != null && b.getObservers().contains(p)) {
+        b.removeObserver(p);
+      }
+    }
   }
 
   /* Returns a copy of the list of batches, but ordered. */

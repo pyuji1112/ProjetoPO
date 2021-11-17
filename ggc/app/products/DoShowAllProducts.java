@@ -26,10 +26,10 @@ class DoShowAllProducts extends Command<WarehouseManager> {
 
     for (Batch b : allBatches) {
       String currentProductId = b.getProduct().getProductId();
-      
+
       if (!productsId.contains(currentProductId.toLowerCase())) {
         _display.addLine(_receiver.showProduct(currentProductId));
-        productsId.add(currentProductId);
+        productsId.add(currentProductId.toLowerCase());
       }
     }
     _display.display();

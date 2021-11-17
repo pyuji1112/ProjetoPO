@@ -13,6 +13,7 @@ public abstract class Transaction implements Serializable {
   private boolean _paid;
 
   public Transaction(Product product, Partner partner, int quantity, Date paymentDate) {
+    _partner = partner;
     _product = product;
     newTransaction();
     _quantity = quantity;

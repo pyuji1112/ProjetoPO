@@ -31,11 +31,12 @@ public class DoRegisterSaleTransaction extends Command<WarehouseManager> {
     Date limitDate = new Date(integerField("LimitDate"));
     int quantity = integerField("Quantity");
 
+
     if (!_receiver.hasPartner(partnerId))
       throw new UnknownPartnerKeyException(partnerId);
 
     if (!_receiver.hasProduct(productId))
-      throw new UnknownProductKeyException(partnerId);
+      throw new UnknownProductKeyException(productId);
 
     Partner partner = _receiver.searchPartnerById(partnerId);
     Product product  = _receiver.searchProductById(productId);

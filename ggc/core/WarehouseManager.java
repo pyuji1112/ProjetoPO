@@ -104,6 +104,10 @@ public class WarehouseManager implements Serializable {
     return false;
   }
 
+  public void removePartnerNotification(Partner p) {
+    _warehouse.removePartnerNotification(p);
+  }
+
   public double getAvailableBalance() {
     return _warehouse.availableBalance();
   }
