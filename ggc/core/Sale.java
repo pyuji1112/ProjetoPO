@@ -9,8 +9,9 @@ public class Sale extends Transaction implements Serializable {
   private int _id;
   private Date _limitDate;
 
-  public Sale(Product product, Partner partner, int quantity, Date paymentDate) {
-    super(product, partner, quantity, paymentDate);
+  public Sale(Product product, Partner partner, int quantity, Date limitDate, Date saleDate) {
+    super(product, partner, quantity, saleDate);
+    _limitDate = limitDate;
   }
 
   public Period calculatePeriod(int n) {

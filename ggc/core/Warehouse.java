@@ -239,7 +239,7 @@ public class Warehouse implements Serializable {
     Product product = searchProductById(productId);
     Partner partner = searchPartnerById(partnerId);
 
-    BreakdownSale newBreakdownSale = new BreakdownSale(product, partner, amount, getDate(), allBatches());
+    BreakdownSale newBreakdownSale = new BreakdownSale(product, partner, amount, getDate(), getDate(),allBatches());
     newBreakdownSale.doBreakdownSale(product, amount, partner);
     newBreakdownSale.pay();
     partner.addSale(newBreakdownSale);

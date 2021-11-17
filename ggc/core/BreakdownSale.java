@@ -10,8 +10,8 @@ public class BreakdownSale extends Sale implements Serializable {
     private double _baseValue;
     private Component _resultingProduct;
 
-    public BreakdownSale(Product product, Partner partner, int quantity, Date paymentDate, List<Batch> batches) {
-        super(product, partner, quantity, paymentDate);
+    public BreakdownSale(Product product, Partner partner, int quantity, Date limitDate, Date saleDate, List<Batch> batches) {
+        super(product, partner, quantity, limitDate, saleDate);
         _allBatches = new ArrayList<>(batches);
     }
 
