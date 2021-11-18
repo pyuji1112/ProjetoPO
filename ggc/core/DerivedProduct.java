@@ -29,15 +29,17 @@ public class DerivedProduct extends Product implements Serializable {
 
     @Override
     public String toString() {
-        String display = "" + getAlpha() + "|";
+        String display = "|";
         int i = 0;
 
         Recipe recipe = getRecipe();
 
         for (i = 0; i < recipe.getComponents().size(); i++) {
-            display += recipe.getComponents().get(i).getProductId() + "-"
+            display += recipe.getComponents().get(i).getProductId() + ":"
                     + recipe.getComponents().get(i).getQuantity() + "#";
         }
+
+        if (!display.equals("|")) display = display.substring(0, display.length() - 1);
 
         return display;
 

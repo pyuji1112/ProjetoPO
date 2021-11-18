@@ -59,8 +59,8 @@ public class Batch implements Serializable {
     }
 
 
-    int uptadeStock(int quantity) {
-      return _availableUnits + quantity;
+    public void uptadeStock(int quantity) {
+      this._availableUnits += quantity;
     }
 
     public boolean addObserver(Observer obs) {

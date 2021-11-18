@@ -9,14 +9,13 @@ public abstract class Transaction implements Serializable {
   private double _value;
   private int _quantity;
   private Date _paymentDate;
-  private static int _transactionId;
+  private int _transactionId;
   private boolean _paid;
 
   public Transaction(Product product, Partner partner, int quantity, Date paymentDate) {
     _partner = partner;
     _product = product;
     _quantity = quantity;
-    _paymentDate = paymentDate;
     _paid = false;
   }
 
@@ -25,11 +24,15 @@ public abstract class Transaction implements Serializable {
   }
 
   public double getValue() {
-    return _value;
+    return _value * _quantity;
   }
 
   public int getTransactionId() {
     return _transactionId;
+  }
+
+  public void setId(int transactionId) {
+    this._transactionId = transactionId;
   }
 
   public Product getProduct() {
@@ -44,10 +47,6 @@ public abstract class Transaction implements Serializable {
     return _paymentDate;
   }
 
-  void newTransaction() {
-    _transactionId++;
-  }
-
   public void setValue(double value) {
     _value = value;
   }
@@ -56,8 +55,9 @@ public abstract class Transaction implements Serializable {
     return this._paid;
   }
 
-  public void pay() {
+  public void pay(Date paymentDate) {
     this._paid = true;
+    this._paymentDate = paymentDate;
   }
 
 

@@ -156,7 +156,7 @@ public class Partner implements Serializable, Observer {
   public double getAcquisitionsValue() {
     double value = 0;
     for (Acquisition a : this._acquisitions) {
-      value += a.getValue() * a.getQuantity();
+      value += a.getValue();
     }
     return value;
   }

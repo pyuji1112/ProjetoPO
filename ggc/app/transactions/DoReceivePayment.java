@@ -18,7 +18,7 @@ public class DoReceivePayment extends Command<WarehouseManager> {
   @Override
   public final void execute() throws CommandException {
     Transaction transaction = _receiver.searchTransactionById(integerField("Id"));
-    transaction.pay();
+    transaction.pay(_receiver.getDate());
     _receiver.changeAvailableBalance(transaction.getValue());
   }
 

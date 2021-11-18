@@ -37,7 +37,7 @@ public class Sale extends Transaction implements Serializable {
   @Override
   public String toString() {
     return "VENDA|" + this._id + "|" + this.getPartner().getId() + "|" + this.getProduct().getProductId() + "|"
-    + this.getQuantity() + "|" + this.getValue() + "|" + this.getPartner().valueToPay(this) + "|"
+    + this.getQuantity() + "|" + (int) this.getValue() + "|" + (int) this.getPartner().valueToPay(this) + "|"
     + this.getLimitDate().getDate() + "|" + this.getPaymentDate().getDate();
   }
 

@@ -97,18 +97,15 @@ public class Parser implements Serializable {
     double aggravation = Double.parseDouble(components[5]);
     List<Component> componentsList = new ArrayList<>();
 
-    if (!_store.hasProduct(idProduct)) {
-
-      for (String component : components[6].split("#")) {
-        String[] recipeComponent = component.split(":");
-        Component c = new Component(recipeComponent[0], Integer.parseInt(recipeComponent[1]));
-        componentsList.add(c);
-      }
-      Partner partner = _store.searchPartnerById(idPartner);
-      Recipe recipe = new Recipe(componentsList);
-      DerivedProduct derivedProduct = new DerivedProduct(idProduct, price, recipe, aggravation);
-      _store.addBatch(new Batch(partner, stock, price, derivedProduct));
-
+    for (String component : components[6].split("#")) {
+      String[] recipeComponent = component.split(":");
+      Component c = new Component(recipeComponent[0], Integer.parseInt(recipeComponent[1]));
+      componentsList.add(c);
     }
+    Partner partner = _store.searchPartnerById(idPartner);
+    Recipe recipe = new Recipe(componentsList);
+    DerivedProduct derivedProduct = new DerivedProduct(idProduct, price, recipe, aggravation);
+    _store.addBatch(new Batch(partner, stock, price, derivedProduct));
+
   }
 }

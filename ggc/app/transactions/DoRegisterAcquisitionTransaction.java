@@ -52,28 +52,37 @@ public class DoRegisterAcquisitionTransaction extends Command<WarehouseManager> 
       f.parse();
       String awnser = f.stringField("Receita");
 
-      if (awnser.equals("Sim")) {
-        addIntegerField("Número de componentes", Message.requestNumberOfComponents());
-        addRealField("Agravamento", Message.requestAlpha());
+      if (awnser.equals("s")) {
+        Form fs = new Form("Sim");
+        fs.addIntegerField("Número de componentes", Message.requestNumberOfComponents());
+        fs.addRealField("Agravamento", Message.requestAlpha());
+        fs.parse();
+        int nComponents = fs.integerField("Número de componentes");
+        Double alpha = fs.realField("Agravamento");
 
-        int componentsNumber = integerField("Número de componentes");
         int count = 0;
         List<Component> components = new ArrayList<>();
 
-        while (count <= componentsNumber) {
-          addStringField("Identificador do componente", Message.requestProductKey());
-          addIntegerField("Quantidade do componente", Message.requestAmount());
-          Component newComponent = _receiver.makeNewComponent(stringField("Identificador do Componente"), integerField("Quantidade do componente"));
+        while (count <= nComponents) {
+          Form fc = new Form("Components");
+          fc.addStringField("Identificador do componente", Message.requestProductKey());
+          fc.addIntegerField("Quantidade do componente", Message.requestAmount());
+          fc.parse();
+          String idComponent = fc.stringField("Identificador do componente");
+          if (!_receiver.hasProduct(idComponent)) throw new UnknownProductKeyException(idComponent);
+          int qComponent = fc.integerField("Quantidade do componente");
+          Component newComponent = _receiver.makeNewComponent(idComponent, qComponent);
           components.add(newComponent);
+          count++;
         }
         Recipe newRecipe = _receiver.makeNewRecipe(components);
-        DerivedProduct newProduct = _receiver.makeNewDerivedProduct(productId, price, newRecipe, realField("Agravamento"));
+        DerivedProduct newProduct = _receiver.makeNewDerivedProduct(productId, price, newRecipe, alpha);
         _receiver.doRegisterAcquisitionTransaction(partner, newProduct, price, amount);
         _receiver.changeAvailableBalance(price);
         _receiver.changeAccountingBalance(price);
       }
 
-      else if (awnser.equals("Não")) {
+      else if (awnser.equals("n")) {
         SimpleProduct newProduct = new SimpleProduct(productId, price);
         _receiver.doRegisterAcquisitionTransaction(partner, newProduct, price, amount);
         _receiver.changeAvailableBalance(price);

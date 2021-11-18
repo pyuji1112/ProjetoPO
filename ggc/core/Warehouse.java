@@ -90,8 +90,7 @@ public class Warehouse implements Serializable {
   }
 
   String showProduct(String productId) {
-    Product product = searchProductById(productId);
-    return productId + "|" + Math.round(product.getPrice()) + "|" + currentStock(productId);
+    return productId + "|" + Math.round(maxPrice(productId)) + "|" + currentStock(productId) + this.searchProductById(productId).toString();
   }
 
   /* Checks if warehouse has a partner given their ID. */
@@ -167,7 +166,7 @@ public class Warehouse implements Serializable {
     for (Batch b : _batchesList) {
       String currentProduct = b.getProduct().getProductId().toLowerCase();
 
-      if (currentProduct.equals(productId) && maxPrice < b.getUnitPrice()) {
+      if (currentProduct.equals(productId.toLowerCase()) && maxPrice < b.getUnitPrice()) {
         maxPrice = b.getUnitPrice();
       }
     }
@@ -211,7 +210,6 @@ public class Warehouse implements Serializable {
 
   void registerTransaction(Transaction transaction) {
     _transactions.add(transaction);
-    transaction.newTransaction();
   }
 
   void uptadeBatches(List<Batch> batches) {
@@ -221,7 +219,8 @@ public class Warehouse implements Serializable {
   Component doSale(Sale sale) {
     if (isSalePossible(sale.getProduct(), sale.getQuantity())) {
       Partner partner = searchPartnerById(sale.getPartner().getId());
-      sale.pay();
+      sale.pay(this._date);
+      sale.setId(this._transactions.size());
       partner.addSale(sale);
       partner.addPoints(sale.getValue() * 10);
       registerTransaction(sale);
@@ -241,7 +240,8 @@ public class Warehouse implements Serializable {
 
     BreakdownSale newBreakdownSale = new BreakdownSale(product, partner, amount, getDate(), getDate(),allBatches());
     newBreakdownSale.doBreakdownSale(product, amount, partner);
-    newBreakdownSale.pay();
+    newBreakdownSale.pay(this._date);
+    newBreakdownSale.setId(this._transactions.size());
     partner.addSale(newBreakdownSale);
     partner.addPoints(newBreakdownSale.getValue() * 10);
     registerTransaction(newBreakdownSale);
@@ -251,9 +251,11 @@ public class Warehouse implements Serializable {
   void doAcquisition(Partner partner, Product product, double price, int amount) {
     Acquisition newAcquisition = new Acquisition(product, partner, amount, getDate());
     newAcquisition.setValue(price);
-    newAcquisition.pay();
-    partner.addAcquisition(newAcquisition);
+    newAcquisition.pay(this._date);
+    newAcquisition.setId(this._transactions.size());
     registerTransaction(newAcquisition);
+    partner.addAcquisition(newAcquisition);
+
     Batch newBatch = new Batch(partner, amount, price, product);
     addBatch(newBatch);
   }
@@ -336,12 +338,7 @@ public class Warehouse implements Serializable {
   String showTransaction(int transactionId) {
     String transaction = "";
 
-    for (Transaction t : getTransactions()) {
-      if (t.getTransactionId() == transactionId)
-        transaction += transactionId + t.toString();
-        break;
-    }
-    return transaction;
+    return this._transactions.get(transactionId).toString();
   }
 
   public boolean hasTransaction(int transactionId) {
