@@ -45,10 +45,9 @@ public class DoRegisterSaleTransaction extends Command<WarehouseManager> {
     if (quantity > currentStock)
       throw new UnavailableProductException(productId, quantity, currentStock);
 
-    Sale sale = new Sale(product, partner, quantity, limitDate, _receiver.getDate());
-    sale.setValue(product.getPrice() * quantity);
+    Sale sale = new Sale(product, partner, quantity, limitDate);
+    sale.setValue(product.getPrice());
     _receiver.doRegisterSaleTransaction(sale);
-    _receiver.changeAccountingBalance(partner.valueToPay(sale));
 
   }
 

@@ -23,18 +23,14 @@ public class DoLookupPaymentsByPartner extends Command<WarehouseManager> {
   public void execute() throws CommandException {
     String partnerId = stringField("partnerId");
 
-    if (!_receiver.hasPartner(partnerId)) {
+    if (!_receiver.hasPartner(partnerId))
       throw new UnknownPartnerKeyException(partnerId);
-    }
 
     Partner p = _receiver.searchPartnerById(partnerId);
     for (Sale s : p.getSalesList()) {
-      if (s.isPaid()) _display.addLine(s.toString());
+      if (s.isPaid()) _display.addLine(_receiver.showTransaction(s.getTransactionId()));
     }
-    for (Acquisition a : p.getAcquisitionsList()) {
-      if (a.isPaid()) _display.addLine(a.toString());
-    }
-
+    
     _display.display();
 
   }

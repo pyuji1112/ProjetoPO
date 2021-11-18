@@ -38,8 +38,6 @@ public class DoRegisterBreakdownTransaction extends Command<WarehouseManager> {
       throw new UnavailableProductException(productId, amount, currentStock);
 
     _receiver.doRegisterBreakdownTransaction(productId, amount, partner);
-    _receiver.changeAvailableBalance(product.getPrice() * amount);
-    _receiver.changeAccountingBalance(product.getPrice() * amount);
   }
 
 }

@@ -85,22 +85,22 @@ public class Partner implements Serializable, Observer {
     else this._status = Status.NORMAL;
   }
 
-  public double valueToPay(Sale sale) {
+  public double valueToPay(Sale sale, Date currentDate) {
     int n = 0;
     int value = 0;
     if (sale.getProduct() instanceof SimpleProduct) n = 5;
     else if (sale.getProduct() instanceof DerivedProduct) n = 3;
     else return 0;
 
-    if (this._status.equals(Status.NORMAL)) return calculateValueNormal(sale, value, n);
-    else if (this._status.equals(Status.SELECTION)) return calculateValueSelection(sale, value, n);
-    else if (this._status.equals(Status.ELITE)) return calculateValueElite(sale, value, n);
+    if (this._status.equals(Status.NORMAL)) return calculateValueNormal(sale, value, n, currentDate);
+    else if (this._status.equals(Status.SELECTION)) return calculateValueSelection(sale, value, n, currentDate);
+    else if (this._status.equals(Status.ELITE)) return calculateValueElite(sale, value, n, currentDate);
 
     return 0;
   }
 
-  public double calculateValueNormal(Sale sale, double value, int n) {
-    switch(sale.calculatePeriod(n)) {
+  public double calculateValueNormal(Sale sale, double value, int n, Date currentDate) {
+    switch(sale.calculatePeriod(n, currentDate)) {
       case P1:
         sale.setValue(value * 0.9);
         return value * 0.9;
@@ -108,35 +108,35 @@ public class Partner implements Serializable, Observer {
         sale.setValue(value);
         return value;
       case P3:
-        sale.setValue(value + sale.extraDays() * (value * 0.05));
-        return value + sale.extraDays() * (value * 0.05);
+        sale.setValue(value + sale.extraDays(currentDate) * (value * 0.05));
+        return value + sale.extraDays(currentDate) * (value * 0.05);
       case P4:
-        sale.setValue(value + sale.extraDays() * (value * 0.1));
-        return value + sale.extraDays() * (value * 0.1);
+        sale.setValue(value + sale.extraDays(currentDate) * (value * 0.1));
+        return value + sale.extraDays(currentDate) * (value * 0.1);
     }
     return 0;
   }
 
-  public double calculateValueSelection(Sale sale, double value, int n) {
-    switch(sale.calculatePeriod(n)) {
+  public double calculateValueSelection(Sale sale, double value, int n, Date currentDate) {
+    switch(sale.calculatePeriod(n, currentDate)) {
       case P1:
         sale.setValue(value * 0.9);
         return value * 0.9;
       case P2:
-        sale.setValue(sale.twoDaysBeforeDeadline() ? value * 0.95 : value);
-        return sale.twoDaysBeforeDeadline() ? value * 0.95 : value;
+        sale.setValue(sale.twoDaysBeforeDeadline(currentDate) ? value * 0.95 : value);
+        return sale.twoDaysBeforeDeadline(currentDate) ? value * 0.95 : value;
       case P3:
-        sale.setValue(sale.oneDayAfterDeadline() ? value : value + sale.extraDays() * (value * 0.02));
-        return sale.oneDayAfterDeadline() ? value : value + sale.extraDays() * (value * 0.02);
+        sale.setValue(sale.oneDayAfterDeadline(currentDate) ? value : value + sale.extraDays(currentDate) * (value * 0.02));
+        return sale.oneDayAfterDeadline(currentDate) ? value : value + sale.extraDays(currentDate) * (value * 0.02);
       case P4:
-        sale.setValue(value + sale.extraDays() * (value * 0.05));
-        return value + sale.extraDays() * (value * 0.05);
+        sale.setValue(value + sale.extraDays(currentDate) * (value * 0.05));
+        return value + sale.extraDays(currentDate) * (value * 0.05);
     }
     return 0;
   }
 
-  public double calculateValueElite(Sale sale, double value, int n) {
-    switch(sale.calculatePeriod(n)) {
+  public double calculateValueElite(Sale sale, double value, int n, Date currentDate) {
+    switch(sale.calculatePeriod(n, currentDate)) {
       case P1:
         sale.setValue(value * 0.9);
         return value * 0.9;

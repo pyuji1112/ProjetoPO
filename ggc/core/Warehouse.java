@@ -219,7 +219,7 @@ public class Warehouse implements Serializable {
   Component doSale(Sale sale) {
     if (isSalePossible(sale.getProduct(), sale.getQuantity())) {
       Partner partner = searchPartnerById(sale.getPartner().getId());
-      sale.pay(this._date);
+      changeAccountingBalance(sale.getValue());
       sale.setId(this._transactions.size());
       partner.addSale(sale);
       partner.addPoints(sale.getValue() * 10);
@@ -238,9 +238,11 @@ public class Warehouse implements Serializable {
     Product product = searchProductById(productId);
     Partner partner = searchPartnerById(partnerId);
 
-    BreakdownSale newBreakdownSale = new BreakdownSale(product, partner, amount, getDate(), getDate(),allBatches());
+    BreakdownSale newBreakdownSale = new BreakdownSale(product, partner, amount, getDate(), allBatches());
     newBreakdownSale.doBreakdownSale(product, amount, partner);
     newBreakdownSale.pay(this._date);
+    changeAccountingBalance(newBreakdownSale.getValue());
+    changeAvailableBalance(newBreakdownSale.getValue());
     newBreakdownSale.setId(this._transactions.size());
     partner.addSale(newBreakdownSale);
     partner.addPoints(newBreakdownSale.getValue() * 10);
@@ -252,6 +254,8 @@ public class Warehouse implements Serializable {
     Acquisition newAcquisition = new Acquisition(product, partner, amount, getDate());
     newAcquisition.setValue(price);
     newAcquisition.pay(this._date);
+    changeAccountingBalance(-newAcquisition.getValue());
+    changeAvailableBalance(-newAcquisition.getValue());
     newAcquisition.setId(this._transactions.size());
     registerTransaction(newAcquisition);
     partner.addAcquisition(newAcquisition);
@@ -338,7 +342,7 @@ public class Warehouse implements Serializable {
   String showTransaction(int transactionId) {
     String transaction = "";
 
-    return this._transactions.get(transactionId).toString();
+    return this._transactions.get(transactionId).showTransaction(getDate());
   }
 
   public boolean hasTransaction(int transactionId) {

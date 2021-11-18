@@ -10,8 +10,8 @@ public class BreakdownSale extends Sale implements Serializable {
     private double _baseValue;
     private Component _resultingProduct;
 
-    public BreakdownSale(Product product, Partner partner, int quantity, Date limitDate, Date saleDate, List<Batch> batches) {
-        super(product, partner, quantity, limitDate, saleDate);
+    public BreakdownSale(Product product, Partner partner, int quantity, Date limitDate, List<Batch> batches) {
+        super(product, partner, quantity, limitDate);
         _allBatches = new ArrayList<>(batches);
     }
 
@@ -144,7 +144,7 @@ public class BreakdownSale extends Sale implements Serializable {
     @Override
     public String toString() {
         return getPartner().getId() + "|" + getProduct().getProductId() + "|" + getQuantity() + "|" + getValue() + "|"
-                + getBaseValue() + "|" + getPaymentDate() + "|" + getResultingProcuct().getProductId()
+                + getBaseValue() + "|" + getLimitDate() + "|" + getResultingProcuct().getProductId()
                 + "|" + getResultingProcuct().getQuantity() + "|" + getResultingProcuct().getPrice();
     }
 }
