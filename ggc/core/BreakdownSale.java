@@ -49,7 +49,7 @@ public class BreakdownSale extends Sale implements Serializable {
     }
 
     double getComponentsHighestPrice(Component component, Partner partner) {
-        List<Acquisition> allAcquisitions = partner.getAcquisitions();
+        List<Acquisition> allAcquisitions = partner.getAcquisitionsList();
         List<Sale> allSales = partner.getSales();
         double highestPrice = 0;
 
@@ -142,9 +142,10 @@ public class BreakdownSale extends Sale implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return getPartner().getId() + "|" + getProduct().getProductId() + "|" + getQuantity() + "|" + getValue() + "|"
-                + getBaseValue() + "|" + getLimitDate() + "|" + getResultingProcuct().getProductId()
-                + "|" + getResultingProcuct().getQuantity() + "|" + getResultingProcuct().getPrice();
+    public String showTransaction(Date currentDate) {
+        return "DESAGREGAÇÃO" + "|" + getTransactionId() + "|" + getPartner().getId() + "|"
+                + getProduct().getProductId() + "|" + getQuantity() + "|" + getValue() + "|" + getBaseValue() + "|"
+                + getPaymentDate().getDate() + "|" + getResultingProcuct().getProductId() + "|"
+                + getResultingProcuct().getQuantity() + "|" + getResultingProcuct().getPrice();
     }
 }

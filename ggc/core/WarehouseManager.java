@@ -113,7 +113,7 @@ public class WarehouseManager implements Serializable {
   }
 
   public double getAccountingBalance() {
-    return _warehouse.calculateAccountingBalance();
+    return _warehouse.accountingBalance();
   }
 
   public void doRegisterSaleTransaction(Sale sale) {
