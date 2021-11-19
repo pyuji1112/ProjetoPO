@@ -37,6 +37,19 @@ public class Warehouse implements Serializable {
     _accountingBalance = 0;
   }
 
+  public double calculateAccountingBalance() {
+    List<Partner> partnerList = getPartnerList();
+    double accountingBalance = 0;
+
+    for (Partner p : partnerList) {
+      p.setCurrentDate(getDate());
+      accountingBalance += p.getAcquisitionsValue() + p.getSalesDone();
+    }
+    
+    changeAccountingBalance(accountingBalance);
+    return accountingBalance();
+  }
+
   public Date getDate() {
     return _date;
   }

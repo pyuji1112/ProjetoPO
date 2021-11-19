@@ -18,6 +18,7 @@ public class Partner implements Serializable, Observer {
   private List<Acquisition> _acquisitions;
   private List<Sale> _sales;
   private List<Batch> _batches;
+  private Date _currentDate;
 
   public Partner(String id, String name, String address) {
     this._id = id;
@@ -85,9 +86,8 @@ public class Partner implements Serializable, Observer {
     else this._status = Status.NORMAL;
   }
 
-  public double valueToPay(Sale sale, Date currentDate) {
+  public double valueToPay(Sale sale, Double value, Date currentDate) {
     int n = 0;
-    int value = 0;
     if (sale.getProduct() instanceof SimpleProduct) n = 5;
     else if (sale.getProduct() instanceof DerivedProduct) n = 3;
     else return 0;
@@ -164,7 +164,7 @@ public class Partner implements Serializable, Observer {
   public double getSalesDone() {
     double value = 0;
     for (Sale s : this._sales) {
-      value += s.getValue();
+      value += this.valueToPay(s, s.getValue(), getCurrentDate());
     }
     return value;
   }
@@ -175,6 +175,14 @@ public class Partner implements Serializable, Observer {
       if (s.isPaid()) value += s.getValue();
     }
     return value;
+  }
+
+  public void setCurrentDate(Date currentDate){
+    _currentDate = currentDate;
+  }
+
+  public Date getCurrentDate(){
+    return _currentDate;
   }
 
   public List<Acquisition> getAcquisitions() {

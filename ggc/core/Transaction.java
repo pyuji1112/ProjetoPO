@@ -9,6 +9,7 @@ public abstract class Transaction implements Serializable {
   private double _value;
   private int _quantity;
   private Date _limitDate;
+  private Date _paymentDate;
   private int _transactionId;
   private boolean _paid;
 
@@ -58,7 +59,11 @@ public abstract class Transaction implements Serializable {
 
   public void pay(Date paymentDate) {
     this._paid = true;
-    this._limitDate = paymentDate;
+    this._paymentDate = paymentDate;
+  }
+
+  public Date getPaymentDate() {
+    return _paymentDate;
   }
 
   public abstract String showTransaction(Date date);
