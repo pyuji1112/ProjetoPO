@@ -133,7 +133,7 @@ public class Warehouse implements Serializable {
   }
 
   public void addBatch(Batch b) {
-    if (b.getAvailableUnits() == 0) b.setNotificationType("NEW");
+    if (currentStock(b.getProduct().getProductId()) == 0) b.setNotificationType("NEW");
     else if (isLowerPrice(b)) b.setNotificationType("BARGAIN");
     this._batchesList.add(b);
     for (Partner p : this._partnerList) {

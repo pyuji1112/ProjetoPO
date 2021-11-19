@@ -21,9 +21,11 @@ class DoShowPartnerSales extends Command<WarehouseManager> {
     String partnerId = stringField("PartnerId");
     Partner p = _receiver.searchPartnerById(partnerId);
 
-    for (Sale s : p.getSalesList())
-      _display.addLine(s.toString());
-      
+    for (Sale s : p.getSalesList()) {
+      _display.addLine(_receiver.showTransaction(s.getTransactionId()));
+      _display.addLine(_receiver.getAllNotificationsOf(p));
+    }
+
     _display.display();
   }
 
