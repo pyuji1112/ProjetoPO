@@ -81,7 +81,7 @@ public class Parser implements Serializable {
     Partner partner = _store.searchPartnerById(idPartner);
 
     // add batch with price, stock and partner to product
-    _store.addBatch(new Batch(partner, stock, price, product));
+    _store.addBatchFromParser(new Batch(partner, stock, price, product));
   }
 
   // BATCH_M|idProduto|idParceiro|prec
@@ -105,7 +105,7 @@ public class Parser implements Serializable {
     Partner partner = _store.searchPartnerById(idPartner);
     Recipe recipe = new Recipe(componentsList);
     DerivedProduct derivedProduct = new DerivedProduct(idProduct, price, recipe, aggravation);
-    _store.addBatch(new Batch(partner, stock, price, derivedProduct));
+    _store.addBatchFromParser(new Batch(partner, stock, price, derivedProduct));
 
   }
 }

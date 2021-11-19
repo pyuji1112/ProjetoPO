@@ -145,12 +145,16 @@ public class Warehouse implements Serializable {
   }
 
   public void addBatch(Batch b) {
-    if (currentStock(b.getProduct().getProductId()) == 0) b.setNotificationType("NEW");
-    else if (isLowerPrice(b)) b.setNotificationType("BARGAIN");
+    if (isLowerPrice(b)) b.setNotificationType("BARGAIN");
+    else b.setNotificationType("NEW");
     this._batchesList.add(b);
     for (Partner p : this._partnerList) {
       b.addObserver(p);
     }
+  }
+
+  public void addBatchFromParser(Batch b) {
+    this._batchesList.add(b);
   }
 
   public boolean isLowerPrice(Batch b) {
