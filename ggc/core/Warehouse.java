@@ -37,6 +37,18 @@ public class Warehouse implements Serializable {
     _accountingBalance = 0;
   }
 
+  public double calculateAccountingBalance() {
+    List<Partner> partnerList = getPartnerList();
+    double accountingBalance = 0;
+
+    for (Partner p : partnerList) {
+      accountingBalance += p.getAcquisitionsValue() + p.getSalesDone();
+    }
+
+    changeAccountingBalance(accountingBalance);
+    return accountingBalance();
+  }
+
   public Date getDate() {
     return _date;
   }
@@ -152,8 +164,9 @@ public class Warehouse implements Serializable {
     for (Batch b : _batchesList) {
       String currentProduct = b.getProduct().getProductId().toLowerCase();
 
-      if (currentProduct.equals(productId.toLowerCase()))
+      if (currentProduct.equals(productId.toLowerCase())) {
         currentStock += b.getAvailableUnits();
+      }
     }
     return currentStock;
   }
@@ -218,7 +231,7 @@ public class Warehouse implements Serializable {
   Component doSale(Sale sale) {
     if (isSalePossible(sale.getProduct(), sale.getQuantity())) {
       Partner partner = searchPartnerById(sale.getPartner().getId());
-      changeAccountingBalance(sale.getValue());
+      changeAccountingBalance(sale.getProduct().getPrice() * sale.getQuantity());
       sale.setId(this._transactions.size());
       partner.addSale(sale);
       partner.addPoints(sale.getValue() * 10);
@@ -252,7 +265,7 @@ public class Warehouse implements Serializable {
   void doAcquisition(Partner partner, Product product, double price, int amount) {
     Acquisition newAcquisition = new Acquisition(product, partner, amount, getDate());
     newAcquisition.setValue(price);
-    newAcquisition.pay(getDate());
+    newAcquisition.pay(this._date);
     changeAccountingBalance(-newAcquisition.getValue());
     changeAvailableBalance(-newAcquisition.getValue());
     newAcquisition.setId(this._transactions.size());
